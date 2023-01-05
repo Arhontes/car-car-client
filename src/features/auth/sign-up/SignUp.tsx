@@ -1,21 +1,37 @@
-import React from 'react';
-import {useAppDispatch} from "../../../common/hooks/useAppDispatch";
-import {loginTC} from "../auth-slice";
+import * as React from 'react';
+import CssBaseline from '@mui/material/CssBaseline';
+import Box from '@mui/material/Box';
+import Container from '@mui/material/Container';
+import {createTheme, ThemeProvider} from '@mui/material/styles';
+import SignUpHeader from "./sign-up-components/SignUp-Header";
+import SignUpBody from "./sign-up-components/SignUp-Body";
 
-const SignUp = () => {
+const theme = createTheme();
 
-    const dispatch = useAppDispatch()
-    const register = () => {
-        dispatch(loginTC({email:"dsfsd@gmail.com",
-        password:"32423",phone:"dfsssfasfsd",username:"testUser"}))
-    }
+export default function SignUp() {
+
+
     return (
-        <div>
-            <button onClick={() => {
-                register()
-            }}> common reg this</button>
-        </div>
-    );
-};
 
-export default SignUp;
+        <ThemeProvider theme={theme}>
+
+            <Container component="main" maxWidth="xs">
+
+                <CssBaseline/>
+
+                <Box
+                    sx={{
+                        marginTop: 8,
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                    }}
+                >
+                    <SignUpHeader/>
+
+                    <SignUpBody/>
+                </Box>
+            </Container>
+        </ThemeProvider>
+    );
+}
