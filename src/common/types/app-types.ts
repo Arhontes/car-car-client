@@ -1,7 +1,7 @@
-export type RequestStatusType = 'idle' | 'loading' | 'succeeded' | 'failed'
+export type AppStatusType = 'idle' | 'loading' | 'succeeded' | 'failed'
 
 export type AppStateType = {
-    status: RequestStatusType
+    status: AppStatusType
     error: string | null
     isInitialize: boolean
 }
