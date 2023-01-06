@@ -1,7 +1,10 @@
-import type {PayloadAction} from '@reduxjs/toolkit'
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit'
 import {AuthStateType} from "../../common/types/auth-types";
 import {authAPI, RegisterDtoType} from "./auth-api";
+import {appActions} from "../app/appSlice";
+import {handleServerNetworkError} from "../../common/utils/error-handle-utils";
+import {AxiosError} from "axios";
+import {AppDispatch} from "../app/store";
 
 const initialState: AuthStateType = {
     isAuth: false,
@@ -27,13 +30,17 @@ export const authSlice = createSlice({
 
 export const authReducer = authSlice.reducer
 
-export const loginTC = createAsyncThunk('auth/register', async (registerDto:RegisterDtoType, thunkAPI) => {
+export const loginTC = createAsyncThunk('auth/register', async (registerDto:RegisterDtoType, {dispatch}) => {
+
+    dispatch(appActions.changeAppStatus("loading"))
 
     try {
         await authAPI.register(registerDto)
-        console.log(" registration successfully complete ")
+        dispatch(appActions.changeAppStatus("succeeded"))
     } catch (error) {
-        console.log(" registration failed ")
+        const err = error as AxiosError
+        handleServerNetworkError(err, dispatch as AppDispatch )
     }
+
 
 })
