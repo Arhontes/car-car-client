@@ -4,6 +4,7 @@ import TripSearch from "./trip-search/TripSearch";
 import Information from "./information/Information";
 import Footer from "./footer/Footer";
 import Header from "./header/Header";
+import AppErrorSnackBar from "../../common/components/AppErrorSnackBar";
 
 const Main = () => {
     return (
@@ -17,6 +18,7 @@ const Main = () => {
             <Header/>
             <TripSearch/>
             <Information/>
+            <AppErrorSnackBar/>
             <Footer/>
         </Box>
     );
