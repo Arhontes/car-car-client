@@ -4,39 +4,52 @@ import {Box} from "@mui/material";
 import SignInBodyLinks from "./SignIn-BodyLinks";
 import {SubmitHandler, useForm} from "react-hook-form";
 import FormTextField from "../../../../common/components/FormTextField";
-import {validation} from "../../../../common/constans/validation";
+import {
+    validationHelpers,
+    validationMessages,
+    validation
+} from "../../../../common/constans/validation";
+import {useAppDispatch} from "../../../../common/hooks/useAppDispatch";
+import {loginTC} from "../../auth-slice";
 
-type FormInput  = {
+type SignInFormInputs = {
     email: string
     password: string
 }
 
 const SignInBody = () => {
 
-    const {control, handleSubmit, formState: {isValid}} = useForm<FormInput>({mode: "all"});
+    const dispatch = useAppDispatch()
 
-    const onSubmit: SubmitHandler<FormInput> = data => {
-        console.log(data)
+    const {control, handleSubmit, formState: {isValid}} = useForm<SignInFormInputs>({mode: "all"});
+
+    const onSubmit: SubmitHandler<SignInFormInputs> = data => {
+        dispatch(loginTC(data))
     };
     return (
         <Box component="form" onSubmit={handleSubmit(onSubmit)} sx={{mt: 1}}>
 
+
+
             <FormTextField
+                            type={"email"}
                             label={"Email"}
                             defaultValue={""}
                             name={"email"}
                             rules={{
-                                required:"Поле обязательно к заполнению",
-                                pattern: {value:validation.email,message: "Некорректный email"}
+                                required:validationMessages.isRequired,
+                                pattern: {value:validation.email,message: validationMessages.incorrectEmail}
                             }}
                             control={control as any}/>
 
             <FormTextField
-                            label={"Password"}
+                            type={"password"}
+                            label={"Пароль"}
                             defaultValue={""}
                             name={"password"}
                             rules={{
-                                required:"Введите пароль",
+                                required:validationMessages.isRequired,
+                                minLength:validationHelpers.getMinLengthMessage(6)
                             }}
                             control={control as any}/>
 
