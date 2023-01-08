@@ -1,6 +1,6 @@
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit'
-import {AuthStateType} from "../../common/types/auth-types";
-import {authAPI, RegisterDtoType} from "./auth-api";
+import {AuthStateType, LoginDtoType, RegisterDtoType} from "../../common/types/auth-types";
+import {authAPI} from "./auth-api";
 import {appActions} from "../app/appSlice";
 import {handleServerNetworkError} from "../../common/utils/error-handle-utils";
 import {AxiosError} from "axios";
@@ -30,7 +30,9 @@ export const authSlice = createSlice({
 
 export const authReducer = authSlice.reducer
 
-export const loginTC = createAsyncThunk('auth/register', async (registerDto:RegisterDtoType, {dispatch}) => {
+/* ---thunks---*/
+
+export const registerTC = createAsyncThunk('auth/register', async (registerDto:RegisterDtoType, {dispatch}) => {
 
     dispatch(appActions.changeAppStatus("loading"))
 
@@ -42,5 +44,17 @@ export const loginTC = createAsyncThunk('auth/register', async (registerDto:Regi
         handleServerNetworkError(err, dispatch as AppDispatch )
     }
 
+})
+
+export const loginTC = createAsyncThunk('auth/login', async (loginDto:LoginDtoType, {dispatch}) => {
+   dispatch(appActions.changeAppStatus("loading"))
+
+    try {
+        await authAPI.login(loginDto)
+        dispatch(appActions.changeAppStatus("succeeded"))
+    } catch (error) {
+        const err = error as AxiosError
+        handleServerNetworkError(err, dispatch as AppDispatch )
+    }
 
 })
