@@ -1,4 +1,5 @@
-import axios, { AxiosResponse } from 'axios'
+import axios from 'axios'
+import {LoginDtoType, RegisterDtoType} from "../../common/types/auth-types";
 
 export const instance = axios.create({
     baseURL: 'http://localhost:5000/auth/',
@@ -7,10 +8,10 @@ export const instance = axios.create({
 export const authAPI = {
 
     async register(registerDto:RegisterDtoType){
-        const result = await instance.post(`reg`,registerDto)
+        return await instance.post(`reg`,registerDto)
     },
-    async login(){
-
+    async login(loginDTO:LoginDtoType){
+        return await instance.post(`login`,loginDTO)
     },
     async refresh(){
 
@@ -20,10 +21,5 @@ export const authAPI = {
     },
 }
 
-export type RegisterDtoType = {
-    username:string,
-    password:string,
-    phone:string,
-    email:string
-}
+
 
