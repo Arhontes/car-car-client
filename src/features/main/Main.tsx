@@ -4,6 +4,7 @@ import TripSearch from "./trip-search/TripSearch";
 import Information from "./information/Information";
 import Footer from "./footer/Footer";
 import Header from "./header/Header";
+import DialogAuth from "../auth/DialogAuth";
 
 const Main = () => {
     return (
@@ -18,6 +19,7 @@ const Main = () => {
             <TripSearch/>
             <Information/>
             <Footer/>
+            <DialogAuth/>
         </Box>
     );
 };
