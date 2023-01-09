@@ -2,13 +2,8 @@ import React from 'react';
 import Grid from "@mui/material/Grid";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
-import SignUpBodyLinks from "./SignUp-BodyLinks";
 import FormTextField from "../../../../common/components/FormTextField";
-import {
-    validationHelpers,
-    validationMessages,
-    validation
-} from "../../../../common/constans/validation";
+import {validation, validationHelpers, validationMessages} from "../../../../common/constans/validation";
 import {SubmitHandler, useForm} from "react-hook-form";
 import {useAppDispatch} from "../../../../common/hooks/useAppDispatch";
 import {registerTC} from "../../auth-slice";
@@ -147,7 +142,6 @@ const SignUpBody = () => {
             >
                 Зарегистрироваться
             </Button>
-            <SignUpBodyLinks/>
         </Box>
     );
 };

@@ -3,7 +3,6 @@ import CssBaseline from '@mui/material/CssBaseline';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import {createTheme, ThemeProvider} from '@mui/material/styles';
-import SignInHeader from "./sign-in-components/SignIn-Header";
 import SignInBody from "./sign-in-components/SignIn-Body";
 
 const theme = createTheme();
@@ -25,7 +24,6 @@ export default function SignIn() {
                         alignItems: 'center',
                     }}
                 >
-                    <SignInHeader/>
                     <SignInBody/>
                 </Box>
 
