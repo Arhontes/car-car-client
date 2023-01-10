@@ -11,6 +11,7 @@ import {useAppSelector} from "../../../../common/hooks/useAppSelector";
 import {getAppStatus} from "../../../../common/selectors/app-selectors";
 import IconButton from "@mui/material/IconButton";
 import {Visibility, VisibilityOff} from "@mui/icons-material";
+import SignUpBodyLinks from "./SignUp-BodyLinks";
 
 type SignUpFormInputs = {
     email: string,
@@ -142,6 +143,7 @@ const SignUpBody = () => {
             >
                 Зарегистрироваться
             </Button>
+            <SignUpBodyLinks/>
         </Box>
     );
 };

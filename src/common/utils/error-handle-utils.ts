@@ -23,5 +23,5 @@ export const handleServerNetworkError = (
     setTimeout(()=>{
         dispatch(appActions.setAppError(null))
         dispatch(appActions.changeAppStatus("idle"))
-    },2000)
+    },3000)
 };

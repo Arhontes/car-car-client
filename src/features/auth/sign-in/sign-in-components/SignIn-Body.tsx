@@ -10,6 +10,7 @@ import {
 } from "../../../../common/constans/validation";
 import {useAppDispatch} from "../../../../common/hooks/useAppDispatch";
 import {loginTC} from "../../auth-slice";
+import SignInBodyLinks from "./SignIn-BodyLinks";
 
 type SignInFormInputs = {
     email: string
@@ -60,6 +61,7 @@ const SignInBody = () => {
             >
                 Войти
             </Button>
+            <SignInBodyLinks/>
         </Box>
     );
 };

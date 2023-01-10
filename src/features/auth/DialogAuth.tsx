@@ -7,6 +7,7 @@ import SignIn from "./sign-in/SignIn";
 import SignUp from "./sign-up/SignUp";
 import {Dialog, DialogContent} from "@mui/material";
 import {useState} from "react";
+import Button from "@mui/material/Button";
 
 interface TabPanelProps {
     children?: React.ReactNode;
@@ -27,7 +28,7 @@ function TabPanel(props: TabPanelProps) {
         >
             {value === index && (
                 <Box sx={{ p: 3 }}>
-                    <Typography>{children}</Typography>
+                    <Typography component={'span'}>{children}</Typography>
                 </Box>
             )}
         </div>
@@ -41,20 +42,29 @@ function a11yProps(index: number) {
     };
 }
 
-export default function DialogAuth() {
+type DialogAuthPropsType = {
+    open:boolean
+    handleCloseDialog:()=>void
+    handleOpenDialog:()=>void
+}
+
+
+
+export default function DialogAuth(props:DialogAuthPropsType) {
     const [value, setValue] = React.useState(0);
 
-    const [open,setOpen] = useState(true)
+
     const handleChange = (event: React.SyntheticEvent, newValue: number) => {
         setValue(newValue);
     };
 
     const handleClose = ()=>{
-        setOpen(false)
+        props.handleCloseDialog()
     }
+
     return (
-        <Dialog open={open} onClose={handleClose} aria-labelledby={"form-dialog-auth"} >
-            <DialogContent>
+        <Dialog open={props.open} onClose={handleClose} aria-labelledby={"form-dialog-auth"} >
+
                 <Box sx={{ width: '100%', top:"20%" }}>
 
                     <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
@@ -65,15 +75,17 @@ export default function DialogAuth() {
                     </Box>
 
                     <TabPanel value={value} index={0}>
-                        <SignIn/>
+                        <SignIn />
                     </TabPanel>
+
                     <TabPanel value={value} index={1}>
                         <SignUp/>
                     </TabPanel>
 
                 </Box>
-            </DialogContent>
+
         </Dialog>
 
     );
 }
+

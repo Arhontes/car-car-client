@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {Box} from "@mui/material";
 import TripSearch from "./trip-search/TripSearch";
 import Information from "./information/Information";
@@ -7,6 +7,9 @@ import Header from "./header/Header";
 import DialogAuth from "../auth/DialogAuth";
 
 const Main = () => {
+
+
+
     return (
         <Box sx={{
             display: "flex",
@@ -19,7 +22,7 @@ const Main = () => {
             <TripSearch/>
             <Information/>
             <Footer/>
-            <DialogAuth/>
+
         </Box>
     );
 };

@@ -8,16 +8,29 @@ import Logout from "@mui/icons-material/Logout";
 import {Login} from "@mui/icons-material";
 import {useAppSelector} from "../../../../common/hooks/useAppSelector";
 import {checkIsAuth} from "../../../../common/selectors/auth-selectors";
+import {useNavigate} from "react-router-dom";
 
-const AccountMenuItems = () => {
+type AccountMenuItemsPropsType = {
+    handleOpenDialog:()=>void
+}
+
+const AccountMenuItems = (props:AccountMenuItemsPropsType) => {
 
     const isAuth = useAppSelector(checkIsAuth)
 
+    const navigate = useNavigate()
+
+    const handleClick = (path:string) => {
+        navigate(`/${path}`)
+    }
+
+
     return (
         <>
-            <MenuItem>
+            <MenuItem onClick={()=>handleClick("profile")}>
                 <Avatar/> Profile
             </MenuItem>
+
             <MenuItem>
                 <Avatar/> My account
             </MenuItem>
@@ -30,14 +43,17 @@ const AccountMenuItems = () => {
                 </ListItemIcon>
                 Settings
             </MenuItem>
+
             {
-                isAuth ? <MenuItem>
+                isAuth ?
+                    <MenuItem  >
                         <ListItemIcon>
                             <Logout fontSize="small"/>
                         </ListItemIcon>
                         Logout
                     </MenuItem>
-                    : <MenuItem>
+
+                    : <MenuItem onClick={()=>handleClick("login")}>
                         <ListItemIcon>
                             <Login fontSize="small"/>
                         </ListItemIcon>

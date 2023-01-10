@@ -2,6 +2,8 @@ import * as React from 'react';
 import Menu from '@mui/material/Menu';
 import AccountMenuItems from "./AccountMenu-Items";
 import AccountMenuIcon from "./AccountMenu-Icon";
+import {useState} from "react";
+import DialogAuth from "../../../auth/DialogAuth";
 
 const menuSX = {
     elevation: 0,
@@ -45,8 +47,16 @@ export default function AccountMenu() {
         setAnchorEl(null);
     };
 
+    const [openDialog,setOpenDialog] = useState(false)
+
+    const handleOpenDialog =()=> {
+        setOpenDialog(true)
+    }
+    const handleCloseDialog =()=> {
+        setOpenDialog(false)
+    }
     return (
-        <>
+        <React.Fragment>
 
             <AccountMenuIcon handleClick={handleClick} open/>
 
@@ -60,9 +70,12 @@ export default function AccountMenu() {
                 transformOrigin={{horizontal: 'right', vertical: 'top'}}
                 anchorOrigin={{horizontal: 'right', vertical: 'bottom'}}
             >
-                <AccountMenuItems/>
+                <AccountMenuItems handleOpenDialog={handleOpenDialog}/>
 
             </Menu>
-        </>
+
+            <DialogAuth open={openDialog} handleCloseDialog={handleCloseDialog} handleOpenDialog={handleOpenDialog}/>
+
+        </React.Fragment>
     );
 }
