@@ -106,3 +106,21 @@ export const authMeTC = createAsyncThunk('auth/me', async (_, thunkAPI) => {
     }
 
 })
+export const refreshTC = createAsyncThunk('auth/refresh', async (_, {dispatch}) => {
+    dispatch(appActions.changeAppStatus("loading"))
+
+    try {
+
+        const result = await authAPI.refresh()
+
+        const {access_token,...user} = result.data
+
+        dispatch(profileActions.setProfileData(user))
+        dispatch(authActions.setAuth(true))
+        dispatch(appActions.changeAppStatus("succeeded"))
+    } catch (error) {
+        const err = error as AxiosError
+        handleServerNetworkError(err, dispatch as AppDispatch)
+    }
+
+})
