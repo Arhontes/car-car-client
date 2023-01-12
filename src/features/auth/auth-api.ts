@@ -1,7 +1,6 @@
-import axios, {AxiosHeaders, AxiosRequestConfig} from 'axios'
-import {LoginDtoType, LoginResponseType, RegisterDtoType} from "../../common/types/auth-types";
+import axios from 'axios'
+import {LoginDtoType, LoginResponseType, RefreshResponseType, RegisterDtoType} from "../../common/types/auth-types";
 import {UserType} from "../../common/types/common-types";
-import {createAsyncThunk} from "@reduxjs/toolkit";
 
 export const instance = axios.create({
     baseURL: 'http://localhost:5000/auth/',
@@ -41,7 +40,7 @@ export const authAPI = {
         return await instance.get<UserType>(`me`)
     },
     async refresh(){
-        return await instance.post(`refresh`,{phone:"89206703775"})
+        return await instance.post<RefreshResponseType>(`refresh`,{})
     },
     async logout(){
 
