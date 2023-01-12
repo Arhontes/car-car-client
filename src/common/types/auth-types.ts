@@ -1,3 +1,4 @@
+import {UserType} from "./common-types";
 
 
 export type AuthStateType = {
@@ -21,3 +22,6 @@ export type LoginResponseType = {
     access_token:string
     refresh_token:string
 }
+export type RefreshResponseType = {
+    access_token:string
+} & UserType
