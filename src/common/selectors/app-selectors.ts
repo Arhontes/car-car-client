@@ -7,3 +7,7 @@ export const getAppErrorMessage = (state:RootState):string|null=>{
 export const getAppStatus  = (state:RootState):AppStatusType=>{
     return state.app.status
 }
+
+export const checkIsAppInitialize =  (state:RootState)=>{
+    return state.app.isInitialize
+}
