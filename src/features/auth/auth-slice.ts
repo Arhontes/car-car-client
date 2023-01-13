@@ -56,7 +56,8 @@ export const loginTC = createAsyncThunk('auth/login', async (loginDto: LoginDtoT
 
     try {
         const result = await authAPI.login(loginDto)
-        /* dispatch(authActions.setTokens(result.data))*/
+
+        dispatch(authActions.setAuth(true))
         localStorage.setItem('token', result.data.access_token)
         dispatch(appActions.changeAppStatus("succeeded"))
 
@@ -75,10 +76,10 @@ export const logoutTC = createAsyncThunk('auth/logout', async (_, {dispatch}) =>
 
         dispatch(profileActions.setProfileData(
             {
-                lastname: null,
+                lastName: null,
                 phone: null,
                 userId: null,
-                username: null,
+                firstName: null,
                 email: null
             }))
 
@@ -92,20 +93,7 @@ export const logoutTC = createAsyncThunk('auth/logout', async (_, {dispatch}) =>
 
 })
 
-export const authMeTC = createAsyncThunk('auth/me', async (_, thunkAPI) => {
-    thunkAPI.dispatch(appActions.changeAppStatus("loading"))
 
-    try {
-        const result = await authAPI.authMe()
-        thunkAPI.dispatch(profileActions.setProfileData(result.data))
-        thunkAPI.dispatch(authActions.setAuth(true))
-        thunkAPI.dispatch(appActions.changeAppStatus("succeeded"))
-    } catch (error) {
-        const err = error as AxiosError
-        handleServerNetworkError(err, thunkAPI.dispatch as AppDispatch)
-    }
-
-})
 export const refreshTC = createAsyncThunk('auth/refresh', async (_, {dispatch}) => {
     dispatch(appActions.changeAppStatus("loading"))
 
@@ -113,7 +101,9 @@ export const refreshTC = createAsyncThunk('auth/refresh', async (_, {dispatch}) 
 
         const result = await authAPI.refresh()
 
-        const {access_token,...user} = result.data
+        const {access_token,user} = result.data
+
+        localStorage.setItem('token',access_token)
 
         dispatch(profileActions.setProfileData(user))
         dispatch(authActions.setAuth(true))
