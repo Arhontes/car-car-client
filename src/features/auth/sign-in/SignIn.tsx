@@ -1,18 +1,24 @@
 import * as React from 'react';
+import {useEffect} from 'react';
 import CssBaseline from '@mui/material/CssBaseline';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
-import {createTheme, ThemeProvider} from '@mui/material/styles';
 import SignInBody from "./sign-in-components/SignIn-Body";
-
-const theme = createTheme();
+import {useAppSelector} from "../../../common/hooks/useAppSelector";
+import {checkIsAuth} from "../../../common/selectors/auth-selectors";
+import {useNavigate} from "react-router-dom";
 
 export default function SignIn() {
 
+    const isAuth = useAppSelector(checkIsAuth)
+    const navigate = useNavigate()
 
+    useEffect(()=>{
+        if (isAuth) navigate('/')
+    },[isAuth])
     return (
 
-        <ThemeProvider theme={theme}>
+
             <Container component="main" maxWidth="xs">
 
                 <CssBaseline/>
@@ -28,6 +34,6 @@ export default function SignIn() {
                 </Box>
 
             </Container>
-        </ThemeProvider>
+
     );
 }
