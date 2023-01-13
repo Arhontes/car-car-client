@@ -35,7 +35,7 @@ export const App = () => {
                 margin:0,
                 display: "flex",
                 flexDirection: "column",
-                justifyContent: "space-between",
+                justifyContent: isInitialize?"space-between":"space-around",
                 bgcolor: '#f1f1f1',
                 minHeight: '100vh'
             }}>
