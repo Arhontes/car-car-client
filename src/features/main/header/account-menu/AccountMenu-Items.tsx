@@ -4,17 +4,11 @@ import Avatar from "@mui/material/Avatar";
 import Divider from "@mui/material/Divider";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import Settings from "@mui/icons-material/Settings";
-import Logout from "@mui/icons-material/Logout";
-import {Login} from "@mui/icons-material";
 import {useAppSelector} from "../../../../common/hooks/useAppSelector";
 import {checkIsAuth} from "../../../../common/selectors/auth-selectors";
 import {useNavigate} from "react-router-dom";
 
-type AccountMenuItemsPropsType = {
-    handleOpenDialog:()=>void
-}
-
-const AccountMenuItems = (props:AccountMenuItemsPropsType) => {
+const AccountMenuItems = () => {
 
     const isAuth = useAppSelector(checkIsAuth)
 
@@ -28,11 +22,7 @@ const AccountMenuItems = (props:AccountMenuItemsPropsType) => {
     return (
         <>
             <MenuItem onClick={()=>handleClick("profile")}>
-                <Avatar/> Profile
-            </MenuItem>
-
-            <MenuItem>
-                <Avatar/> My account
+                <Avatar/> Профиль
             </MenuItem>
 
             <Divider/>
@@ -41,25 +31,10 @@ const AccountMenuItems = (props:AccountMenuItemsPropsType) => {
                 <ListItemIcon>
                     <Settings fontSize="small"/>
                 </ListItemIcon>
-                Settings
+                Настройки
             </MenuItem>
 
-            {
-                isAuth ?
-                    <MenuItem  >
-                        <ListItemIcon>
-                            <Logout fontSize="small"/>
-                        </ListItemIcon>
-                        Logout
-                    </MenuItem>
 
-                    : <MenuItem onClick={()=>handleClick("login")}>
-                        <ListItemIcon>
-                            <Login fontSize="small"/>
-                        </ListItemIcon>
-                        Login
-                    </MenuItem>
-            }
             </>
     );
 };
