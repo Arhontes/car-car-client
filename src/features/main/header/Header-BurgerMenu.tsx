@@ -5,12 +5,13 @@ import MenuIcon from "@mui/icons-material/Menu";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import Typography from "@mui/material/Typography";
+import {HeaderMenuPropsType} from "./Header";
 
 type HeaderBurgerMenuPropsType = {
     handleOpenNavMenu: (event: React.MouseEvent<HTMLElement>) => void
     anchorElNav: null | HTMLElement
-    handleCloseNavMenu: () => void
-    pages: string[]
+    handleCloseNavMenu: (path:string) => void
+    pages: HeaderMenuPropsType[]
 }
 
 const HeaderBurgerMenu = (props: HeaderBurgerMenuPropsType) => {
@@ -47,8 +48,8 @@ const HeaderBurgerMenu = (props: HeaderBurgerMenuPropsType) => {
                 }}
             >
                 {props.pages.map((page) => (
-                    <MenuItem key={page} onClick={props.handleCloseNavMenu}>
-                        <Typography textAlign="center">{page}</Typography>
+                    <MenuItem key={page.title} onClick={()=>props.handleCloseNavMenu(page.path)}>
+                        <Typography textAlign="center">{page.title}</Typography>
                     </MenuItem>
                 ))}
             </Menu>
