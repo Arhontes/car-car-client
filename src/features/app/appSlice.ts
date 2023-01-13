@@ -1,6 +1,12 @@
 import type {PayloadAction} from '@reduxjs/toolkit'
-import {createSlice} from '@reduxjs/toolkit'
+import {createAsyncThunk, createSlice} from '@reduxjs/toolkit'
 import {AppStateType, AppStatusType} from "../../common/types/app-types";
+import {authAPI} from "../auth/auth-api";
+import {profileActions} from "../profile/profile-slice";
+import {AxiosError} from "axios";
+import {handleServerNetworkError} from "../../common/utils/error-handle-utils";
+import {AppDispatch} from "./store";
+import {authActions} from "../auth/auth-slice";
 
 const initialState: AppStateType = {
     isInitialize: false,
@@ -29,3 +35,31 @@ export const appActions = appSlice.actions
 
 export const appReducer = appSlice.reducer
 
+/*--- thunks ---*/
+
+export const initializeAppTC = createAsyncThunk('app/initialize', async (_, {dispatch}) => {
+
+    try {
+
+        const result = await authAPI.refresh()
+
+        const {access_token,user} = result.data
+
+        localStorage.setItem('token', access_token)
+
+        dispatch(profileActions.setProfileData(user))
+        dispatch(authActions.setAuth(true))
+
+
+        dispatch(appActions.changeAppStatus("succeeded"))
+
+    } catch (error) {
+        const err = error as AxiosError
+        handleServerNetworkError(err, dispatch as AppDispatch)
+    }finally {
+        setTimeout(()=>{
+            dispatch(appActions.toggleIsInitialize(true))
+        },2000)
+    }
+
+})
