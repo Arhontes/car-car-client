@@ -24,4 +24,5 @@ export type LoginResponseType = {
 }
 export type RefreshResponseType = {
     access_token:string
-} & UserType
+    user:UserType
+}
