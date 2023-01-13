@@ -1,15 +1,10 @@
-import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit'
-import {AuthStateType, LoginDtoType, RegisterDtoType} from "../../common/types/auth-types";
-import {appActions} from "../app/appSlice";
-import {handleServerNetworkError} from "../../common/utils/error-handle-utils";
-import {AxiosError} from "axios";
-import {AppDispatch} from "../app/store";
+import {createSlice, PayloadAction} from '@reduxjs/toolkit'
 import {UserType} from "../../common/types/common-types";
 
 const initialState: UserType = {
     email: null,
-    username: null,
-    lastname: null,
+    firstName: null,
+    lastName: null,
     phone: null,
     userId: null,
 }
@@ -19,7 +14,7 @@ export const profileSlice = createSlice({
     initialState,
     reducers: {
         setProfileData: (state, action: PayloadAction<UserType>) => {
-            state = action.payload
+           return action.payload
         },
     },
 })
