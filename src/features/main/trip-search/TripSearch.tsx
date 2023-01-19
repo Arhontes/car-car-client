@@ -1,59 +1,92 @@
-import React from 'react';
-import {Box} from "@mui/material";
-import {SubmitHandler, useForm} from "react-hook-form";
-import vw from '../../../common/assets/vw.png'
+import React, {useState} from 'react';
+import {Box, Button, IconButton, TextField} from "@mui/material";
+import {TripDirection} from "../../../common/types/trip-types";
+import ChangeCircleIcon from "@mui/icons-material/ChangeCircle";
+import {TripDatePicker} from "../../../common/components/TripDatePicker";
+import {useAppDispatch} from "../../../common/hooks/useAppDispatch";
+import {getTripsTC} from "../../admin/admin-slice";
+import dayjs, {Dayjs} from "dayjs";
 
-type Inputs = {
-    from: string,
-    to: string,
-    date: string
-};
+type TripSearchPropsType = {
+    navigateOption: () => void
+}
 
-const TripSearch = () => {
-    const {register, handleSubmit, watch, formState: {errors}} = useForm<Inputs>();
-    const onSubmit: SubmitHandler<Inputs> = data => console.log(data);
-    const date = new Date();
+export const TripSearch = ({navigateOption}: TripSearchPropsType) => {
+    const currentDate = new Date().toJSON().slice(0, 10);
 
-    let day = date.getDate();
-    let month = date.getMonth() + 1;
-    let year = date.getFullYear();
+    const [datePickerValue, setDatePickerValue] = React.useState<Dayjs | null>(
+        dayjs(currentDate),
+    );
+    const [direction, setDirection] = useState<TripDirection>("Onega-Arkhangelsk")
 
-// This arrangement can be altered based on how we want the date's format to appear.
-    let currentDate = `${day}-${month}-${year}`;
+    const dispatch = useAppDispatch()
 
+    const setDirectionHandler = () => {
+        setDirection(direction === "Onega-Arkhangelsk" ? "Arkhangelsk-Onega" : "Onega-Arkhangelsk")
+    }
+
+    const redirectHandler = () => {
+        const dateInMillisecond = (dayjs(datePickerValue).unix() * 1000).toString()
+        dispatch(getTripsTC({date: dateInMillisecond, direction: direction}))
+        navigateOption()
+
+    }
+
+    const displayDirection = direction.split("-")
     return (
         <Box sx={{
             display: "flex",
             alignItems: "top",
             justifyContent: "center",
-            height: 400,
-            backgroundImage: `url(${vw})`,
-            backgroundRepeat: "no-repeat",
-            backgroundPosition: "bottom",
-            backgroundSize: "contain",
+            padding: 3
         }}>
-
-            <form onSubmit={handleSubmit(onSubmit)}>
-                {/* register your input into the hook by invoking the "register" function */}
-                <input style={{height: 35, margin: 10}} defaultValue="Онега" {...register("from", {required: true})} />
-
-                {/* include validation with required or other standard HTML validation rules */}
-                <input style={{height: 35, margin: 10}}
-                       defaultValue="Aрхангельск" {...register("to", {required: true})} />
-
-                {/* include validation with required or other standard HTML validation rules */}
-                <input style={{height: 35, margin: 10}}
-                       defaultValue={currentDate} {...register("date", {required: true})} />
-
-                {/* errors will return when field validation fails  */}
-                {errors.date && <span>This field is required</span>}
-
-                <button style={{height: 35, margin: 10}} type={"submit"}> Найти поездку</button>
-            </form>
+            <Box sx={{display: "flex", flexDirection: "column"}}>
+                <Box sx={{
+                    opacity: 0.9,
+                    backgroundColor: "white",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    position: "relative"
+                }}>
+                    <TextField sx={{opacity: 0.9, backgroundColor: "white"}} id="direction-from"
+                               value={displayDirection[0]} variant="outlined"/>
+                    <IconButton sx={{position: "absolute", zIndex: 1}} onClick={setDirectionHandler}
+                                aria-label="switch-direction">
+                        <ChangeCircleIcon/>
+                    </IconButton>
+                    <TextField sx={{textAlign: "center", backgroundColor: "white"}} id={"direction-to"}
+                               value={displayDirection[1]} variant="outlined"/>
+                </Box>
+                <TripDatePicker datePickerValue={datePickerValue} setDatePickerValue={setDatePickerValue}/>
+                <Button onClick={redirectHandler} variant="contained">Найти</Button>
+            </Box>
 
         </Box>
 
     );
 };
 
-export default TripSearch;
+/*const locales = ['en', 'fr', 'de', 'ru', 'ar-sa'] as const;
+
+const TripDate = () =>{
+    const [locale, setLocale] = React.useState<typeof locales[number]>('ru');
+
+    const [value, setValue] = React.useState<Dayjs | null>(dayjs('2022-04-07'));
+    const selectLocale = (newLocale: any) => {
+        setLocale(newLocale);
+    };
+    return (
+        <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale={locale}>
+            <DatePicker
+                label="Basic example"
+                value={value}
+                onChange={(newValue) => {
+                    setValue(newValue);
+                }}
+                renderInput={(params) => <TextField {...params} />}
+            />
+        </LocalizationProvider>
+    )
+}*/
+
