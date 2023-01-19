@@ -29,14 +29,13 @@ function Header() {
     };
 
     const navigate = useNavigate()
-
     const menuIconAction = (path: string) => {
-            setAnchorElNav(null),
-            navigate(path)
+        setAnchorElNav(null)
+        navigate(path)
     }
 
     return (
-        <AppBar position="static">
+        <AppBar position="sticky">
 
             <Container maxWidth="xl">
 
