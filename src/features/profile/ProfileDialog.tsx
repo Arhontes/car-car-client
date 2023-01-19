@@ -49,10 +49,10 @@ const ProfileInfo = ({phone, email, lastName, firstName}: UserType)=> {
     return (
 
         <Box flexDirection={"column"} display={"flex"}>
-            <TextField margin="dense" value={firstName} label="Имя" variant="outlined" disabled={disabled}/>
-            <TextField margin="dense" value={lastName} label="Фамилия" variant="outlined" disabled={disabled}/>
-            <TextField margin="dense" value={phone} label="Телефон" variant="outlined" disabled={disabled}/>
-            <TextField margin="dense" value={email} label="Email" variant="outlined" disabled={disabled}/>
+            <TextField margin="dense" value={firstName||""} label="Имя" variant="outlined" disabled={disabled}/>
+            <TextField margin="dense" value={lastName||""} label="Фамилия" variant="outlined" disabled={disabled}/>
+            <TextField margin="dense" value={phone||""} label="Телефон" variant="outlined" disabled={disabled}/>
+            <TextField margin="dense" value={email||""} label="Email" variant="outlined" disabled={disabled}/>
             <IconButton onClick={changeDisabled} color="primary" aria-label="edit profile ">
                 <EditRoundedIcon/>
             </IconButton>

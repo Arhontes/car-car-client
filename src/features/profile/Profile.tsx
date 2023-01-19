@@ -11,20 +11,21 @@ const Profile = () => {
 
     const profile = useAppSelector(getProfileData) as any
 
-    const [open,setOpen] = useState(true)
+    const [open, setOpen] = useState(true)
 
-    const handleClose = ()=>{
+    const handleClose = () => {
         setOpen(false)
     }
     const isAuth = useAppSelector(checkIsAuth)
     const navigate = useNavigate()
-    useEffect(()=>{
+    useEffect(() => {
+        if (!isAuth) {
+            navigate('/login', {replace: true})
+        }
         !open && navigate("/")
-    },[open])
+    }, [open,isAuth])
 
-    if (!isAuth){
-        navigate('login')
-    }
+
     return (
         <Dialog
             onClose={handleClose}
