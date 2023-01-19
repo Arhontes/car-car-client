@@ -1,46 +1,20 @@
-import axios from 'axios'
 import {LoginDtoType, LoginResponseType, RefreshResponseType, RegisterDtoType} from "../../common/types/auth-types";
+import {axiosInstance} from "../../common/api/axios-instance";
 
-export const instance = axios.create({
-    baseURL: 'http://localhost:5000/auth/',
-    withCredentials: true
-})
-instance.interceptors.request.use((config) => {
-        // @ts-ignore
-        config.headers.set() ['Authorization'] = `Bearer ${localStorage.getItem('token')}`;
-        return config;
-    },
-    error => {
-        console.log("in request")
-        return Promise.reject(error);
-    })
-instance.interceptors.response.use((config) => {
-    return config
-}, async (error) => {
-    try {
-        if (error.response.status === 401 && error.config.url !== "refresh") {
-            const response = await authAPI.refresh()
-            localStorage.setItem('token', response.data.access_token)
-            return instance.request(error.congig)
-        }
-    } catch (error) {
-        console.log(error)
-    }
-    throw error
-})
 
 export const authAPI = {
 
     async register(registerDto: RegisterDtoType) {
-        return await instance.post(`reg`, registerDto)
+        return await axiosInstance.post(`auth/reg`, registerDto)
     },
-    async login(loginDTO: LoginDtoType) {
-        return await instance.post<LoginResponseType>(`login`, loginDTO)
+    async login(loginDTO: LoginDtoType):Promise<LoginResponseType> {
+        const result = await axiosInstance.post<LoginResponseType>(`auth/login`, loginDTO)
+        return result.data
     },
     async refresh() {
-        return await instance.post<RefreshResponseType>(`refresh`, {})
+        return await axiosInstance.post<RefreshResponseType>(`auth/refresh`, {})
     },
     async logout() {
-        return await instance.post(`logout`)
+        return await axiosInstance.post(`auth/logout`)
     },
 }
