@@ -19,7 +19,6 @@ export const authSlice = createSlice({
     reducers: {
         setTokens: (state, action: PayloadAction<LoginResponseType>) => {
             state.access_token = action.payload.access_token
-            state.refresh_token = action.payload.refresh_token
         },
         setAuth: (state, action: PayloadAction<boolean>) => {
             state.isAuth = action.payload
@@ -57,8 +56,10 @@ export const loginTC = createAsyncThunk('auth/login', async (loginDto: LoginDtoT
     try {
         const result = await authAPI.login(loginDto)
 
+        dispatch(profileActions.setProfileData(result.user))
+        localStorage.setItem('token', result.access_token)
+
         dispatch(authActions.setAuth(true))
-        localStorage.setItem('token', result.data.access_token)
         dispatch(appActions.changeAppStatus("succeeded"))
 
     } catch (error) {

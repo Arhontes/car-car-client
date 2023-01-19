@@ -20,7 +20,7 @@ export type LoginDtoType = {
 }
 export type LoginResponseType = {
     access_token:string
-    refresh_token:string
+    user:UserType
 }
 export type RefreshResponseType = {
     access_token:string
