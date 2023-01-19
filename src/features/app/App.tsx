@@ -11,20 +11,21 @@ import {useAppSelector} from "../../common/hooks/useAppSelector";
 import {checkIsAppInitialize} from "../../common/selectors/app-selectors";
 import {useAppDispatch} from "../../common/hooks/useAppDispatch";
 import Header from "../main/header/Header";
-import TripSearch from "../main/trip-search/TripSearch";
-import Information from "../main/information/Information";
 import Footer from "../main/footer/Footer";
 import {initializeAppTC} from "./appSlice";
 import {VWCircular} from "../../common/components/CircularProgress";
+import {Admin} from '../admin/Admin';
+import Main from "../main/Main";
+import {TripsList} from "../../common/components/TripsList";
 
 export const App = () => {
 
     const dispatch = useAppDispatch()
     const isInitialize = useAppSelector(checkIsAppInitialize)
 
-   useEffect(()=>{
+    useEffect(() => {
         dispatch(initializeAppTC())
-    },[])
+    }, [])
 
     return (
 
@@ -32,27 +33,32 @@ export const App = () => {
         <Container fixed>
 
             <Box sx={{
-                margin:0,
+                margin: 0,
                 display: "flex",
                 flexDirection: "column",
-                justifyContent: isInitialize?"space-between":"space-around",
+                justifyContent: isInitialize ? "space-between" : "space-around",
                 bgcolor: '#f1f1f1',
-                minHeight: '100vh'
+                minHeight: '100vh',
             }}>
 
                 {!isInitialize ?
-                    <Box sx={{alignSelf:"center"}}><VWCircular/></Box>
+                    <Box sx={{alignSelf: "center"}}>
+                        <VWCircular/>
+                    </Box>
                     : <>
                         <Header/>
 
                         <Routes>
-                            <Route index element={<TripSearch/>}/>
+                            <Route index element={<Main/>}/>
+                            <Route path={'admin'} element={<Admin/>}/>
                             <Route path={'login'} element={<SignIn/>}/>
                             <Route path={'register'} element={<SignUp/>}/>
                             <Route path={'profile'} element={<Profile/>}/>
+                            <Route path={'searchresults'} element={<TripsList/>}/>
+
                         </Routes>
 
-                        <Information/>
+                        {/*<Information/>*/}
 
                         <Footer/>
                     </>
@@ -65,4 +71,7 @@ export const App = () => {
 }
 
 
-
+/*backgroundImage: `url(${vw})`,
+    backgroundRepeat: "no-repeat",
+    backgroundPosition: "center",
+    backgroundSize: "contain",*/
