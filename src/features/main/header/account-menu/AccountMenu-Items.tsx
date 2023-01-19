@@ -24,7 +24,9 @@ const AccountMenuItems = () => {
             <MenuItem onClick={()=>handleClick("profile")}>
                 <Avatar/> Профиль
             </MenuItem>
-
+            <MenuItem onClick={()=>handleClick("admin")}>
+                <Avatar/> Admin
+            </MenuItem>
             <Divider/>
 
             <MenuItem>
