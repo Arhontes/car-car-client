@@ -17,11 +17,11 @@ axiosInstance.interceptors.response.use((config) => {
     return config
 }, async (error) => {
     try {
-        if (error.response.status === 401 && error.config.url !== "refresh") {
+       /* if (error.response.status === 401 && error.config.url !== "refresh") {
             const response = await authAPI.refresh()
             localStorage.setItem('token', response.data.access_token)
             return axiosInstance.request(error.congig)
-        }
+        }*/
     } catch (error) {
 
     }

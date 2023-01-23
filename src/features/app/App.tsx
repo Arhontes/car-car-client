@@ -28,7 +28,7 @@ export const App = () => {
     useEffect(() => {
         dispatch(initializeAppTC())
     }, [])
-
+    console.log("isInitialize"+ " " + isInitialize)
     return (
 
 
@@ -41,10 +41,6 @@ export const App = () => {
                 justifyContent: isInitialize ? "space-between" : "space-around",
                 bgcolor: '#f1f1f1',
                 minHeight: '100vh',
-                backgroundImage: `url(${vw})`,
-                backgroundRepeat: "no-repeat",
-                backgroundPosition: "center",
-                backgroundSize: "contain"
             }}>
 
                 {!isInitialize ?

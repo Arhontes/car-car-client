@@ -57,9 +57,10 @@ export const initializeAppTC = createAsyncThunk('app/initialize', async (_, {dis
         const err = error as AxiosError
         handleServerNetworkError(err, dispatch as AppDispatch)
     }finally {
-        setTimeout(()=>{
+        dispatch(appActions.toggleIsInitialize(true))
+      /*  setTimeout(()=>{
             dispatch(appActions.toggleIsInitialize(true))
-        },2000)
+        },2000)*/
     }
 
 })
