@@ -1,24 +1,20 @@
 import * as React from 'react';
+import {useState} from 'react';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
 import {Box, Container, Divider, ListItem, Paper, Stack, Typography} from "@mui/material";
 import {TripSearch} from "../../features/main/trip-search/TripSearch";
 import {useAppSelector} from "../hooks/useAppSelector";
-import {getTrips} from "../selectors/admin-selectors";
-import {Trip} from "../types/trip-types";
-import {
-    createTheme,
-    responsiveFontSizes,
-    ThemeProvider,
-} from '@mui/material/styles';
-import {useState} from "react";
-
+import {selectorTrips} from "../selectors/admin-selectors";
+import {TripType} from "../types/trip-types";
+import {createTheme, responsiveFontSizes,} from '@mui/material/styles';
+import {useNavigate} from "react-router-dom";
 
 
 export const TripsList = () => {
     const [open, setOpen] = React.useState(true);
 
-    const trips = useAppSelector(getTrips)
+    const trips = useAppSelector(selectorTrips)
 
     const handleClick = () => {
         setOpen(!open);
@@ -39,7 +35,7 @@ export const TripsList = () => {
 }
 
 
-const CustomListItem = (props: Trip) => {
+const CustomListItem = (props: TripType) => {
 
     const itemText = `Маршрут - ${props.direction}, время выезда - ${props.startTime}, свободно мест - ${7 - props.passengers.length}`
 
@@ -55,29 +51,37 @@ const CustomListItem = (props: Trip) => {
 let theme = createTheme();
 theme = responsiveFontSizes(theme);
 
-export const CustomTripCard = (props: Trip) => {
-    const [elevation, setElevation] = useState(3)
+export const CustomTripCard = (props: TripType) => {
 
+    const [elevation, setElevation] = useState(3)
+    const navigate = useNavigate()
+    const paramString = `/trip/${props.tripId}`
+
+    const onClickHandler = () => {
+        navigate(paramString)
+    }
 
     return (
-        <Paper onMouseOut={()=>setElevation(3)} onMouseOver={()=>setElevation(10)} sx={{padding:4}} elevation={elevation}>
-            <Typography variant={"body2"} sx={{textAlign:"center"}} width={"max-content"}>
-                    Какой то хэдер с красивой картинокой и названием проекта
+        <Paper onClick={onClickHandler} onMouseOut={() => setElevation(3)} onMouseOver={() => setElevation(10)} sx={{padding: 4}}
+               elevation={elevation}>
+            <Typography variant={"body2"} sx={{textAlign: "center"}} width={"max-content"}>
+                Какой то хэдер с красивой картинокой и названием проекта
             </Typography>
-            <Box sx={{display:"flex",flexDirection:"row",position:"relative",justifyContent:"space-between"}} >
-                <Box sx={{margin:1}}>
-                    <ThemeProvider theme={theme}>
-                        <Typography variant="h6">{props.direction}</Typography>
-                    </ThemeProvider>
 
+            <Box sx={{display: "flex", flexDirection: "row", position: "relative", justifyContent: "space-between"}}>
+
+                <Box sx={{margin: 1}}>
+                    <Typography variant="h6">{props.direction}</Typography>
                 </Box>
-                <Divider  orientation="vertical" flexItem />
-                <Box sx={{margin:1}}>
+
+                <Divider orientation="vertical" flexItem/>
+
+                <Box sx={{margin: 1}}>
                     <Typography variant="h6">Выезд в {props.startTime}</Typography>
                 </Box>
 
             </Box>
-
+            <Typography variant="h6">{`Осталось мест: ${7-props.passengers.length}`}</Typography>
         </Paper>
 
     )

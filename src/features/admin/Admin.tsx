@@ -1,14 +1,14 @@
 import React, {useEffect} from 'react';
 import {useAppSelector} from "../../common/hooks/useAppSelector";
-import {getProfileData} from "../../common/selectors/profile-selectors";
+import {selectorProfileData} from "../../common/selectors/profile-selectors";
 import {checkIsAuth} from "../../common/selectors/auth-selectors";
 import {useNavigate} from "react-router-dom";
 import Box from "@mui/material/Box";
 import {Tab, Tabs, Typography} from "@mui/material";
 import {useAppDispatch} from "../../common/hooks/useAppDispatch";
-import {getTrips} from "../../common/selectors/admin-selectors";
+import {selectorTrips} from "../../common/selectors/admin-selectors";
 import {getTripsTC} from "./admin-slice";
-import {TripItem} from "../trip/Trip";
+import {TripItem} from "../trip/TripItem";
 
 interface TabPanelProps {
     children?: React.ReactNode;
@@ -45,9 +45,9 @@ function a11yProps(index: number) {
 export const Admin = () => {
 
     const isAuth = useAppSelector(checkIsAuth)
-    const profile = useAppSelector(getProfileData)
+    const profile = useAppSelector(selectorProfileData)
     const navigate = useNavigate()
-    const trips = useAppSelector(getTrips)
+    const trips = useAppSelector(selectorTrips)
     const dispatch = useAppDispatch()
 
    /* useEffect(() => {

@@ -10,7 +10,7 @@ export type CreateTripDto = {
 }
 export type TripDirection = "Onega-Arkhangelsk" | "Arkhangelsk-Onega"
 
-export type Trip = {
+export type TripType = {
      direction: TripDirection
      date: number;
      startTime: string;

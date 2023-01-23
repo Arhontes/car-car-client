@@ -17,6 +17,8 @@ import {VWCircular} from "../../common/components/CircularProgress";
 import {Admin} from '../admin/Admin';
 import Main from "../main/Main";
 import {TripsList} from "../../common/components/TripsList";
+import Trip from '../trip/Trip';
+import vw from '../../common/assets/vw.png'
 
 export const App = () => {
 
@@ -39,6 +41,10 @@ export const App = () => {
                 justifyContent: isInitialize ? "space-between" : "space-around",
                 bgcolor: '#f1f1f1',
                 minHeight: '100vh',
+                backgroundImage: `url(${vw})`,
+                backgroundRepeat: "no-repeat",
+                backgroundPosition: "center",
+                backgroundSize: "contain"
             }}>
 
                 {!isInitialize ?
@@ -55,6 +61,8 @@ export const App = () => {
                             <Route path={'register'} element={<SignUp/>}/>
                             <Route path={'profile'} element={<Profile/>}/>
                             <Route path={'searchresults'} element={<TripsList/>}/>
+                            <Route path={'trip/:tripId'} element={<Trip/>}/>
+
 
                         </Routes>
 

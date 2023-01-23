@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {useAppSelector} from "../../common/hooks/useAppSelector";
-import {getProfileData} from "../../common/selectors/profile-selectors";
+import {selectorProfileData} from "../../common/selectors/profile-selectors";
 import {checkIsAuth} from "../../common/selectors/auth-selectors";
 import {useNavigate} from "react-router-dom";
 import {Dialog, DialogContent} from "@mui/material";
@@ -9,7 +9,7 @@ import {ProfileDialog} from "./ProfileDialog";
 
 const Profile = () => {
 
-    const profile = useAppSelector(getProfileData) as any
+    const profile = useAppSelector(selectorProfileData) as any
 
     const [open, setOpen] = useState(true)
 
