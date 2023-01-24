@@ -1,5 +1,5 @@
-import {axiosInstance} from "./axios-instance";
-import {CreateTripDto, TripType, TripsSearchEntitiesType} from "../types/trip-types";
+import {axiosInstance} from "../../common/api/axios-instance";
+import {CreateTripDto, TripType, TripsSearchEntitiesType} from "../../common/types/trip-types";
 
 export const tripApi = {
     async createTrip(trip: CreateTripDto) {

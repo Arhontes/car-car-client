@@ -5,7 +5,7 @@ import {appActions} from "../app/appSlice";
 import {AxiosError} from "axios";
 import {handleServerNetworkError} from "../../common/utils/error-handle-utils";
 import {AppDispatch} from "../app/store";
-import {tripApi} from "../../common/api/trip-api";
+import {tripApi} from "../trip/trip-api";
 
 type AdminStateType = {
     trips: TripType[] | null,
@@ -72,3 +72,4 @@ export const getTripByIdTC = createAsyncThunk('admin/getTripById', async (tripId
     }
 
 })
+

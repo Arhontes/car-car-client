@@ -1,5 +1,5 @@
 import {Car} from "./car-types";
-import {PassengerType} from "./passenger-types";
+import {PassengerType} from "./passengers-types";
 
 export type CreateTripDto = {
      direction: string;

@@ -62,27 +62,30 @@ export const CustomTripCard = (props: TripType) => {
     }
 
     return (
-        <Paper onClick={onClickHandler} onMouseOut={() => setElevation(3)} onMouseOver={() => setElevation(10)} sx={{padding: 4}}
-               elevation={elevation}>
-            <Typography variant={"body2"} sx={{textAlign: "center"}} width={"max-content"}>
-                Какой то хэдер с красивой картинокой и названием проекта
-            </Typography>
+        <Container fixed>
+            <Paper onClick={onClickHandler} onMouseOut={() => setElevation(3)} onMouseOver={() => setElevation(10)} sx={{padding: 4}}
+                   elevation={elevation}>
+                <Typography variant={"body2"} sx={{textAlign: "center"}} width={"max-content"}>
+                    Какой то хэдер с красивой картинокой и названием проекта
+                </Typography>
 
-            <Box sx={{display: "flex", flexDirection: "row", position: "relative", justifyContent: "space-between"}}>
+                <Box sx={{display: "flex", flexDirection: "row", position: "relative", justifyContent: "space-between"}}>
 
-                <Box sx={{margin: 1}}>
-                    <Typography variant="h6">{props.direction}</Typography>
+                    <Box sx={{margin: 1}}>
+                        <Typography variant="h6">{props.direction}</Typography>
+                    </Box>
+
+                    <Divider orientation="vertical" flexItem/>
+
+                    <Box sx={{margin: 1}}>
+                        <Typography variant="h6">Выезд в {props.startTime}</Typography>
+                    </Box>
+
                 </Box>
+                <Typography variant="h6">{`Осталось мест: ${7-props.passengers.length}`}</Typography>
+            </Paper>
+        </Container>
 
-                <Divider orientation="vertical" flexItem/>
-
-                <Box sx={{margin: 1}}>
-                    <Typography variant="h6">Выезд в {props.startTime}</Typography>
-                </Box>
-
-            </Box>
-            <Typography variant="h6">{`Осталось мест: ${7-props.passengers.length}`}</Typography>
-        </Paper>
 
     )
 }

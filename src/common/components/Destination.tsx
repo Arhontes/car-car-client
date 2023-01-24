@@ -1,25 +1,11 @@
-import React, {useState} from 'react';
-import {
-    Box,
-    Dialog,
-    FormControl,
-    FormGroup,
-    InputLabel,
-    MenuItem,
-    Select,
-    SelectChangeEvent,
-    TextField
-} from "@mui/material";
+import React from 'react';
+import {Box, Dialog, MenuItem, TextField} from "@mui/material";
 import {Controller, SubmitHandler, useForm, UseFormGetValues, UseFormSetValue} from "react-hook-form";
 import {AddPassengerFormType} from "../../features/trip/AddPassengerFrom";
 import Grid from "@mui/material/Grid";
 import FormTextField from "./FormTextField";
 import {validationHelpers, validationMessages} from "../constans/validation";
-import {watch} from "fs/promises";
 import Button from "@mui/material/Button";
-import {Simulate} from "react-dom/test-utils";
-import loadedData = Simulate.loadedData;
-import {isAllOf} from "@reduxjs/toolkit";
 
 const currencies = [
     {
@@ -39,8 +25,8 @@ const currencies = [
         label: 'Cеверодвинск',
     },
     {
-        value: 'Архангелсьск',
-        label: 'Архангелсьск',
+        value: 'Архангельск',
+        label: 'Архангельск',
     },
     {
         value: 'Другое',
@@ -54,7 +40,7 @@ type DestinationPropsType = {
     setOpen: (value: boolean) => void
     setValue: UseFormSetValue<AddPassengerFormType>
     getValues: UseFormGetValues<AddPassengerFormType>
-    handleClose:()=>void
+    handleClose: () => void
 }
 
 const Destination = ({open, setOpen, getValues, ...restProps}: DestinationPropsType) => {
@@ -62,12 +48,10 @@ const Destination = ({open, setOpen, getValues, ...restProps}: DestinationPropsT
 
     return (
         <Dialog onClose={() => setOpen(false)} open={open}>
-
-            {restProps.field === "from"
-                ? <FromForm getValues={getValues} setValue={restProps.setValue}/>
-                : <ToForm handleClose={restProps.handleClose} setValue={restProps.setValue}/>
-            }
-
+            <AddressForm
+                field={restProps.field}
+                handleClose={restProps.handleClose}
+                setValue={restProps.setValue}/>
         </Dialog>
     );
 };
@@ -75,83 +59,49 @@ const Destination = ({open, setOpen, getValues, ...restProps}: DestinationPropsT
 export default Destination;
 
 
-export const FromForm = (props: {
-    setValue: UseFormSetValue<AddPassengerFormType>
-    getValues: UseFormGetValues<AddPassengerFormType>
-}) => {
-
-    const [value, setValue] = useState(props.getValues("from"))
-
-    const onChangeHandler = (event: SelectChangeEvent<unknown>) => {
-        const selectedValue = event.target.value as string
-        props.setValue("from", selectedValue)
-        setValue(selectedValue)
-    }
-
-    return (
-        <FormControl margin="normal"
-                     color="primary"
-                     variant="filled"
-                     sx={{display: 'flex', flexDirection: 'row', justifyContent: 'space-around', p: 5}}>
-            <FormGroup row sx={{justifyContent: 'space-around'}}>
-                <Box>
-                    <InputLabel id="from-select">Выберите пункт отправки</InputLabel>
-                    <Select
-                        value={value}
-                        label={"Выберите пункт отправки"}
-                        onChange={onChangeHandler}
-                        id={"from-select"}
-                        MenuProps={{
-                            PaperProps: {sx: {maxHeight: 200}}
-                        }}>
-
-                        {currencies.map((el) => (
-                            <MenuItem key={el.value} value={el.value}>
-                                {el.label}
-                            </MenuItem>
-                        ))}
-
-                    </Select>
-                </Box>
-
-            </FormGroup>
-        </FormControl>
-    )
-}
-
 type AddressType = {
     town: string,
     street: string,
-    entrance: number,
+    entrance: string,
     house: string,
-    other:string
+    other: string
 }
 
-export const ToForm = (props: {
+export const AddressForm = (props: {
     setValue: UseFormSetValue<AddPassengerFormType>
-    handleClose:()=>void
+    handleClose: () => void
+    field: "from" | "to"
 }) => {
 
-    const {control, handleSubmit,watch, formState: {isValid}, getValues, setValue} = useForm<AddressType>({mode: "all"});
+    const {
+        control,
+        handleSubmit,
+        watch,
+        formState: {isValid},
+    } = useForm<AddressType>({mode: "all"});
 
-    const onSubmit: SubmitHandler<AddressType> = (data,event) => {
+    const onSubmit: SubmitHandler<AddressType> = (data, event) => {
 
-        data['house'] = `дом ${data['house']}`
+        if (data['house']) {
+            data['house'] = `дом ${data['house']}`
+        }
+        if (data['entrance']) {
+            data['entrance'] = `подъезд ${data['entrance']}`
+        }
 
         let address = ""
 
-        Object.keys(data).forEach(key=>{
-            if (data[key as keyof typeof data]){
-                address += `${data[key as keyof typeof data].toString()},`
+        Object.keys(data).forEach(key => {
+            if (data[key as keyof typeof data]) {
+                address += `${data[key as keyof typeof data]},`
             }
         })
 
-        props.setValue("to",address.slice(0,-1))
-
+        props.setValue(props.field, address.slice(0, -1))
         props.handleClose()
     }
 
-    const isOnega = watch("town")?.toString()==="Онега"
+    const isOnega = watch("town")?.toString() === "Онега"
 
     return (
         <Box component="form" onSubmit={handleSubmit(onSubmit)} sx={{px: 3}}>
@@ -207,7 +157,6 @@ export const ToForm = (props: {
                         </Grid>
                         <Grid item xs={12}>
                             <FormTextField
-                                type={"number"}
                                 label={"Подъезд"}
                                 defaultValue={""}
                                 name={"entrance"}
@@ -236,13 +185,5 @@ export const ToForm = (props: {
                 Подвердить
             </Button>
         </Box>
-    )
-}
-
-const DestinationDialog = () => {
-    return (
-        <div>
-
-        </div>
     )
 }

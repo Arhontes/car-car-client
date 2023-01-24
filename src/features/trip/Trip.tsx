@@ -20,7 +20,7 @@ const Trip = () => {
 
 
     const dispatch = useAppDispatch()
-    //const trip = useAppSelector(selectorTripById)
+
     useEffect(() => {
         if (!trip && tripId) {
             dispatch(getTripByIdTC(tripId))

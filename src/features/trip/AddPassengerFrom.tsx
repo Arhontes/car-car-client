@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useAppSelector} from "../../common/hooks/useAppSelector";
 import {selectorProfileData} from "../../common/selectors/profile-selectors";
 import Grid from "@mui/material/Grid";
@@ -13,6 +13,9 @@ import {TripDirection} from "../../common/types/trip-types";
 import FormSelectField from "../../common/components/FormSelectField";
 import {Dialog, MenuItem, Select, TextField} from "@mui/material";
 import Destination from "../../common/components/Destination";
+import {addPassengerTC} from "../passengers/passenger-slice";
+import {CreatePassengerDto} from "../../common/types/passengers-types";
+import {selectorTripById} from "../../common/selectors/admin-selectors";
 
 const currencies = [
     {
@@ -57,7 +60,8 @@ const AddPassengerFrom = ({direction}: AddPassengerFromPropsType) => {
     const [open,setOpen] = useState(false)
     const [field,setField] = useState<"from"|"to">("from")
 
-    const {email, firstName, lastName, phone} = useAppSelector(selectorProfileData)
+    const {email, firstName, lastName, phone,userId} = useAppSelector(selectorProfileData)
+    const trip = useAppSelector(selectorTripById)
     const appStatus = useAppSelector(getAppStatus)
 
     const dispatch = useAppDispatch()
@@ -73,13 +77,16 @@ const AddPassengerFrom = ({direction}: AddPassengerFromPropsType) => {
     }
 
     const {control, handleSubmit, formState: {isValid}, getValues,setValue} = useForm<AddPassengerFormType>({mode: "all"});
-
     const onSubmit: SubmitHandler<AddPassengerFormType> = (data,event) => {
         event?.preventDefault()
         event?.stopPropagation()
-        event?.isPropagationStopped()
-        console.log(data)
+        const newPassenger:CreatePassengerDto = {...data,userId:userId,tripId:trip!.tripId}
+        dispatch(addPassengerTC(newPassenger))
     };
+    useEffect(()=>{
+        setValue("from", townFrom)
+        setValue("to", townTo)
+    },[])
     return (
         <>
             <Box component="form" onSubmit={handleSubmit(onSubmit)} sx={{px: 3}}>
@@ -139,11 +146,21 @@ const AddPassengerFrom = ({direction}: AddPassengerFromPropsType) => {
                     </Grid>
 
                     <Grid item xs={12} sm={6}>
-                        <TextField multiline onClick={() =>  handleOpen("from")} fullWidth value={getValues('from')}/>
+                        <TextField
+                            spellCheck={false}
+                            multiline
+                            onClick={() =>  handleOpen("from")}
+                            fullWidth
+                            value={getValues('from')||townFrom}/>
                     </Grid>
 
                     <Grid item xs={12} sm={6}>
-                        <TextField spellCheck={false} multiline onClick={() => handleOpen("to")} fullWidth value={getValues('to')}/>
+                        <TextField
+                            spellCheck={false}
+                            multiline
+                            onClick={() => handleOpen("to")}
+                            fullWidth
+                            value={getValues('to')||townTo}/>
                     </Grid>
 
                 </Grid>
@@ -157,11 +174,15 @@ const AddPassengerFrom = ({direction}: AddPassengerFromPropsType) => {
                 >
                     Подвердить
                 </Button>
-
-
-
             </Box>
-            <Destination handleClose={handleClose} getValues={getValues} field={field} setOpen={setOpen} open={open} setValue={setValue}/>
+            <Destination
+
+                handleClose={handleClose}
+                getValues={getValues}
+                field={field}
+                setOpen={setOpen}
+                open={open}
+                setValue={setValue}/>
         </>
 
     );
