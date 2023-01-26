@@ -6,9 +6,9 @@ import {useNavigate} from "react-router-dom";
 import Box from "@mui/material/Box";
 import {Tab, Tabs, Typography} from "@mui/material";
 import {useAppDispatch} from "../../common/hooks/useAppDispatch";
-import {selectorTrips} from "../../common/selectors/admin-selectors";
-import {getTripsTC} from "./admin-slice";
 import {TripItem} from "../trip/TripItem";
+import {selectorTrips} from "../../common/selectors/trips-selectors";
+import {getTripsTC} from "../trip/trip-slice";
 
 interface TabPanelProps {
     children?: React.ReactNode;

@@ -16,7 +16,7 @@ import {initializeAppTC} from "./appSlice";
 import {VWCircular} from "../../common/components/CircularProgress";
 import {Admin} from '../admin/Admin';
 import Main from "../main/Main";
-import {TripsList} from "../../common/components/TripsList";
+import {TripsList} from "../trip/TripsList";
 import Trip from '../trip/Trip';
 import vw from '../../common/assets/vw.png'
 

@@ -3,12 +3,12 @@ import {useState} from 'react';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
 import {Box, Container, Divider, ListItem, Paper, Stack, Typography} from "@mui/material";
-import {TripSearch} from "../../features/main/trip-search/TripSearch";
-import {useAppSelector} from "../hooks/useAppSelector";
-import {selectorTrips} from "../selectors/admin-selectors";
-import {TripType} from "../types/trip-types";
+import {TripSearch} from "../main/trip-search/TripSearch";
+import {useAppSelector} from "../../common/hooks/useAppSelector";
+import {TripType} from "../../common/types/trip-types";
 import {createTheme, responsiveFontSizes,} from '@mui/material/styles';
 import {useNavigate} from "react-router-dom";
+import {selectorTrips} from "../../common/selectors/trips-selectors";
 
 
 export const TripsList = () => {
@@ -31,20 +31,6 @@ export const TripsList = () => {
             </Stack>
         </Container>
 
-    );
-}
-
-
-const CustomListItem = (props: TripType) => {
-
-    const itemText = `Маршрут - ${props.direction}, время выезда - ${props.startTime}, свободно мест - ${7 - props.passengers.length}`
-
-    return (
-        <ListItem component="div" disablePadding>
-            <ListItemButton>
-                <ListItemText primary={itemText}/>
-            </ListItemButton>
-        </ListItem>
     );
 }
 

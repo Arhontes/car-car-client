@@ -1,4 +1,4 @@
-import {RootState} from "../../features/app/store";
+import {RootState} from "../store/store";
 
 export const selectorTrips = (state:RootState)=>{
     return state.admin.trips

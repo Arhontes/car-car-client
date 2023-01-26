@@ -1,4 +1,4 @@
-import {RootState} from "../../features/app/store";
+import {RootState} from "../store/store";
 import {AppStatusType} from "../types/app-types";
 
 export const getAppErrorMessage = (state:RootState):string|null=>{

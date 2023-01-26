@@ -1,14 +1,14 @@
 import React, {useEffect, useState} from 'react';
 import {useParams} from "react-router-dom";
 import {useAppDispatch} from "../../common/hooks/useAppDispatch";
-import {getTripByIdTC} from "../admin/admin-slice";
 import {useAppSelector} from "../../common/hooks/useAppSelector";
-import {selectorTripById, selectorTrips} from "../../common/selectors/admin-selectors";
 import {Box, Button, Container, Paper, Stack} from "@mui/material";
-import {CustomTripCard} from "../../common/components/TripsList";
+import {CustomTripCard} from "./TripsList";
 import {TripType} from "../../common/types/trip-types";
 import ControlPointIcon from '@mui/icons-material/ControlPoint';
-import AddPassengerFrom from "./AddPassengerFrom";
+import AddPassengerFrom from "../passengers/AddPassengerFrom";
+import {selectorTripById, selectorTrips} from "../../common/selectors/trips-selectors";
+import {getTripByIdTC} from "./trip-slice";
 
 const Trip = () => {
     const [open,setOpen] = useState(false)

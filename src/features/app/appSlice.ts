@@ -5,7 +5,7 @@ import {authAPI} from "../auth/auth-api";
 import {profileActions} from "../profile/profile-slice";
 import {AxiosError} from "axios";
 import {handleServerNetworkError} from "../../common/utils/error-handle-utils";
-import {AppDispatch} from "./store";
+import {AppDispatch} from "../../common/store/store";
 import {authActions} from "../auth/auth-slice";
 
 const initialState: AppStateType = {

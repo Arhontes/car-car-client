@@ -1,7 +1,7 @@
 import React from 'react';
 import {Box, Dialog, MenuItem, TextField} from "@mui/material";
 import {Controller, SubmitHandler, useForm, UseFormGetValues, UseFormSetValue} from "react-hook-form";
-import {AddPassengerFormType} from "../../features/trip/AddPassengerFrom";
+import {AddPassengerFormType} from "../../features/passengers/AddPassengerFrom";
 import Grid from "@mui/material/Grid";
 import FormTextField from "./FormTextField";
 import {validationHelpers, validationMessages} from "../constans/validation";

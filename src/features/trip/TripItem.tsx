@@ -90,15 +90,3 @@ export const TripItem = (props: TripPropsType) => {
 
     );
 };
-
-// <Typography variant="overline" display="block" gutterBottom>
-//     {splitedDirection[0]}
-// </Typography>
-// <IconButton onClick={()=>{
-//     direction==="Onega-Arkhangelsk"? setDirection("Arkhangelsk-Onega"): setDirection("Onega-Arkhangelsk")
-// }} aria-label="switch-direction">
-//     <ChangeCircleIcon />
-// </IconButton>
-// <Typography variant="overline" display="block" gutterBottom>
-//     {splitedDirection[1]}
-// </Typography>

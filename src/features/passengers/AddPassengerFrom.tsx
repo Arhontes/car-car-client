@@ -10,12 +10,11 @@ import {useAppDispatch} from "../../common/hooks/useAppDispatch";
 import {getAppStatus} from "../../common/selectors/app-selectors";
 import {SubmitHandler, useForm} from "react-hook-form";
 import {TripDirection} from "../../common/types/trip-types";
-import FormSelectField from "../../common/components/FormSelectField";
-import {Dialog, MenuItem, Select, TextField} from "@mui/material";
+import {TextField} from "@mui/material";
 import Destination from "../../common/components/Destination";
-import {addPassengerTC} from "../passengers/passenger-slice";
+import {addPassengerTC} from "./passenger-slice";
 import {CreatePassengerDto} from "../../common/types/passengers-types";
-import {selectorTripById} from "../../common/selectors/admin-selectors";
+import {selectorTripById} from "../../common/selectors/trips-selectors";
 
 const currencies = [
     {

@@ -1,5 +1,5 @@
 import axios, { AxiosError } from 'axios';
-import {AppDispatch} from "../../features/app/store";
+import {AppDispatch} from "../store/store";
 import {appActions} from "../../features/app/appSlice";
 
 

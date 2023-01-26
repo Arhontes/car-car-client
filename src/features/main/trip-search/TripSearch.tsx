@@ -2,10 +2,10 @@ import React, {useState} from 'react';
 import {Box, Button, IconButton, TextField} from "@mui/material";
 import {TripDirection} from "../../../common/types/trip-types";
 import ChangeCircleIcon from "@mui/icons-material/ChangeCircle";
-import {TripDatePicker} from "../../../common/components/TripDatePicker";
+import {TripDatePicker} from "../../trip/TripDatePicker";
 import {useAppDispatch} from "../../../common/hooks/useAppDispatch";
-import {getTripsTC} from "../../admin/admin-slice";
 import dayjs, {Dayjs} from "dayjs";
+import {getTripsTC} from "../../trip/trip-slice";
 
 type TripSearchPropsType = {
     navigateOption: () => void
@@ -66,27 +66,4 @@ export const TripSearch = ({navigateOption}: TripSearchPropsType) => {
 
     );
 };
-
-/*const locales = ['en', 'fr', 'de', 'ru', 'ar-sa'] as const;
-
-const TripDate = () =>{
-    const [locale, setLocale] = React.useState<typeof locales[number]>('ru');
-
-    const [value, setValue] = React.useState<Dayjs | null>(dayjs('2022-04-07'));
-    const selectLocale = (newLocale: any) => {
-        setLocale(newLocale);
-    };
-    return (
-        <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale={locale}>
-            <DatePicker
-                label="Basic example"
-                value={value}
-                onChange={(newValue) => {
-                    setValue(newValue);
-                }}
-                renderInput={(params) => <TextField {...params} />}
-            />
-        </LocalizationProvider>
-    )
-}*/
 

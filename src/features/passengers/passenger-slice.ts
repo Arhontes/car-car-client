@@ -4,7 +4,7 @@ import {Car} from "../../common/types/car-types";
 import {appActions} from "../app/appSlice";
 import {AxiosError} from "axios";
 import {handleServerNetworkError} from "../../common/utils/error-handle-utils";
-import {AppDispatch} from "../app/store";
+import {AppDispatch} from "../../common/store/store";
 import {tripApi} from "../trip/trip-api";
 import {adminActions} from "../admin/admin-slice";
 import {CreatePassengerDto} from "../../common/types/passengers-types";
