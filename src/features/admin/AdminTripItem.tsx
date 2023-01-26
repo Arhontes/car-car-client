@@ -5,11 +5,7 @@ import ArrowRightAltIcon from '@mui/icons-material/ArrowRightAlt';
 import Paper from "@mui/material/Paper";
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 
-type TripPropsType = {
-    trip: TripType | null
-}
-
-export const TripItem = (props: TripPropsType) => {
+export const AdminTripItem = (props: TripType) => {
 
     const [open, setOpen] = React.useState(false);
 
@@ -20,8 +16,8 @@ export const TripItem = (props: TripPropsType) => {
     const handleClose = () => {
         setOpen(false);
     };
-    const splitedDirection = props.trip!.direction.split("-")
-    const date = new Date(props!.trip!.date).toLocaleDateString()
+    const splitedDirection = props.direction.split("-")
+    const date = new Date(props!.date).toLocaleDateString()
 
 
     // @ts-ignore
@@ -57,7 +53,7 @@ export const TripItem = (props: TripPropsType) => {
                     {`Дата поездки ${date}`}
                 </Typography>
                 <Typography variant="overline" gutterBottom>
-                    {`Осталось мест ${7 - props.trip!.passengers!.length}`}
+                    {`Осталось мест ${7 - props.passengers!.length}`}
                 </Typography>
             </Box>
 

@@ -3,6 +3,8 @@ import {authReducer} from "../../features/auth/auth-slice";
 import {appReducer} from "../../features/app/appSlice";
 import {profileReducer} from "../../features/profile/profile-slice";
 import {adminReducer} from "../../features/admin/admin-slice";
+import {passengersReducer} from "../../features/passengers/passenger-slice";
+import {tripsReducer} from "../../features/trips/trip-slice";
 
 export const store = configureStore({
     reducer: {
@@ -10,6 +12,8 @@ export const store = configureStore({
         app:appReducer,
         profile:profileReducer,
         admin:adminReducer,
+        passengers: passengersReducer,
+        trips: tripsReducer,
     },
 })
 

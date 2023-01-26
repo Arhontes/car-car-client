@@ -29,6 +29,8 @@ export const tripsSlice = createSlice({
     },
 })
 
+export const tripsReducer = tripsSlice.reducer
+
 export const getTripsTC = createAsyncThunk('trips/getTrips', async (params: TripsSearchEntitiesType, {dispatch}) => {
 
     dispatch(appActions.changeAppStatus("loading"))

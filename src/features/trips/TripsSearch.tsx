@@ -1,17 +1,17 @@
 import React, {useState} from 'react';
 import {Box, Button, IconButton, TextField} from "@mui/material";
-import {TripDirection} from "../../../common/types/trip-types";
+import {TripDirection} from "../../common/types/trip-types";
 import ChangeCircleIcon from "@mui/icons-material/ChangeCircle";
-import {TripDatePicker} from "../../trip/TripDatePicker";
-import {useAppDispatch} from "../../../common/hooks/useAppDispatch";
+import {CustomDatePicker} from "../../common/components/CustomDatePicker";
+import {useAppDispatch} from "../../common/hooks/useAppDispatch";
 import dayjs, {Dayjs} from "dayjs";
-import {getTripsTC} from "../../trip/trip-slice";
+import {getTripsTC} from "./trip-slice";
 
 type TripSearchPropsType = {
     navigateOption: () => void
 }
 
-export const TripSearch = ({navigateOption}: TripSearchPropsType) => {
+export const TripsSearch = ({navigateOption}: TripSearchPropsType) => {
     const currentDate = new Date().toJSON().slice(0, 10);
 
     const [datePickerValue, setDatePickerValue] = React.useState<Dayjs | null>(
@@ -58,7 +58,7 @@ export const TripSearch = ({navigateOption}: TripSearchPropsType) => {
                     <TextField sx={{textAlign: "center", backgroundColor: "white"}} id={"direction-to"}
                                value={displayDirection[1]} variant="outlined"/>
                 </Box>
-                <TripDatePicker datePickerValue={datePickerValue} setDatePickerValue={setDatePickerValue}/>
+                <CustomDatePicker datePickerValue={datePickerValue} setDatePickerValue={setDatePickerValue}/>
                 <Button onClick={redirectHandler} variant="contained">Найти</Button>
             </Box>
 

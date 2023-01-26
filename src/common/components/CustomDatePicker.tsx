@@ -7,12 +7,12 @@ import {AdapterDayjs} from '@mui/x-date-pickers/AdapterDayjs';
 import {DatePicker} from '@mui/x-date-pickers/DatePicker';
 import {LocalizationProvider} from '@mui/x-date-pickers/LocalizationProvider';
 
-type TripDatePickerType = {
+type CustomDatePickerType = {
     datePickerValue: Dayjs | null
     setDatePickerValue: (value: Dayjs | null) => void
 }
 
-export const TripDatePicker = ({datePickerValue, setDatePickerValue}: TripDatePickerType) => {
+export const CustomDatePicker = ({datePickerValue, setDatePickerValue}: CustomDatePickerType) => {
 
     return (
         <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale={'ru'}>

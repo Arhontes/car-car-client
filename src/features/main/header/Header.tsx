@@ -9,9 +9,10 @@ import HeaderLogo from "./Header-Logo";
 import HeaderBurgerMenu from "./Header-BurgerMenu";
 import {LinearProgress} from "@mui/material";
 import {useAppSelector} from "../../../common/hooks/useAppSelector";
-import {getAppStatus} from "../../../common/selectors/app-selectors";
+import {selectorGetAppStatus} from "../../../common/selectors/app-selectors";
 import UserAuth from "./account-menu/UserAuth";
 import {useNavigate} from "react-router-dom";
+import {selectorGetProfileData} from "../../../common/selectors/profile-selectors";
 
 export type HeaderMenuPropsType = { title: string, path: string }
 
@@ -22,7 +23,8 @@ const pages: Array<HeaderMenuPropsType> = [{path: "contacts", title: "Конта
 function Header() {
 
     const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
-    const appStatus = useAppSelector(getAppStatus)
+    const appStatus = useAppSelector(selectorGetAppStatus)
+    const profile = useAppSelector(selectorGetProfileData)
 
     const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorElNav(event.currentTarget);
@@ -62,7 +64,11 @@ function Header() {
                             </Button>
                         ))}
                     </Box>
-
+                    {
+                        profile&&profile.phone
+                    }
+                    <Box>
+                    </Box>
                     <UserAuth/>
                     <AccountMenu/>
                 </Toolbar>

@@ -8,7 +8,7 @@ import {SubmitHandler, useForm} from "react-hook-form";
 import {useAppDispatch} from "../../../../common/hooks/useAppDispatch";
 import {registerTC} from "../../auth-slice";
 import {useAppSelector} from "../../../../common/hooks/useAppSelector";
-import {getAppStatus} from "../../../../common/selectors/app-selectors";
+import {selectorGetAppStatus} from "../../../../common/selectors/app-selectors";
 import IconButton from "@mui/material/IconButton";
 import {Visibility, VisibilityOff} from "@mui/icons-material";
 import SignUpBodyLinks from "./SignUp-BodyLinks";
@@ -25,7 +25,7 @@ const SignUpBody = () => {
 
     const dispatch = useAppDispatch()
 
-    const appStatus = useAppSelector(getAppStatus)
+    const appStatus = useAppSelector(selectorGetAppStatus)
 
     const [showPassword, setShowPassword] = React.useState(false);
 

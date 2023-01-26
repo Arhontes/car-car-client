@@ -16,9 +16,9 @@ import {initializeAppTC} from "./appSlice";
 import {VWCircular} from "../../common/components/CircularProgress";
 import {Admin} from '../admin/Admin';
 import Main from "../main/Main";
-import {TripsList} from "../trip/TripsList";
-import Trip from '../trip/Trip';
-import vw from '../../common/assets/vw.png'
+import {TripsList} from "../trips/TripsList";
+import Trip from '../trips/Trip';
+import Book from "../passengers/Book";
 
 export const App = () => {
 
@@ -28,7 +28,6 @@ export const App = () => {
     useEffect(() => {
         dispatch(initializeAppTC())
     }, [])
-    console.log("isInitialize"+ " " + isInitialize)
     return (
 
 
@@ -58,6 +57,7 @@ export const App = () => {
                             <Route path={'profile'} element={<Profile/>}/>
                             <Route path={'searchresults'} element={<TripsList/>}/>
                             <Route path={'trip/:tripId'} element={<Trip/>}/>
+                            <Route path={'trip/book'} element={<Book />}/>
 
 
                         </Routes>

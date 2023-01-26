@@ -1,47 +1,20 @@
 import React, {useEffect, useState} from 'react';
 import {useAppSelector} from "../../common/hooks/useAppSelector";
-import {selectorProfileData} from "../../common/selectors/profile-selectors";
+import {selectorGetProfileData} from "../../common/selectors/profile-selectors";
 import Grid from "@mui/material/Grid";
 import FormTextField from "../../common/components/FormTextField";
 import {validation, validationHelpers, validationMessages} from "../../common/constans/validation";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 import {useAppDispatch} from "../../common/hooks/useAppDispatch";
-import {getAppStatus} from "../../common/selectors/app-selectors";
+import {selectorGetAppStatus} from "../../common/selectors/app-selectors";
 import {SubmitHandler, useForm} from "react-hook-form";
 import {TripDirection} from "../../common/types/trip-types";
 import {TextField} from "@mui/material";
 import Destination from "../../common/components/Destination";
-import {addPassengerTC} from "./passenger-slice";
 import {CreatePassengerDto} from "../../common/types/passengers-types";
 import {selectorTripById} from "../../common/selectors/trips-selectors";
-
-const currencies = [
-    {
-        value: 'Онега',
-        label: 'Онега',
-    },
-    {
-        value: 'Кянда',
-        label: 'Кянда',
-    },
-    {
-        value: 'Тамица',
-        label: 'Тамица',
-    },
-    {
-        value: 'Cеверодвинск',
-        label: 'Cеверодвинск',
-    },
-    {
-        value: 'Архангелсьск',
-        label: 'Архангелсьск',
-    },
-    {
-        value: 'Другое',
-        label: 'Другое',
-    },
-];
+import {useNavigate} from "react-router-dom";
 
 export type AddPassengerFormType = {
     email: string,
@@ -56,36 +29,48 @@ type AddPassengerFromPropsType = {
 
 }
 const AddPassengerFrom = ({direction}: AddPassengerFromPropsType) => {
-    const [open,setOpen] = useState(false)
-    const [field,setField] = useState<"from"|"to">("from")
+    const [open, setOpen] = useState(false)
 
-    const {email, firstName, lastName, phone,userId} = useAppSelector(selectorProfileData)
+    const [field, setField] = useState<"from" | "to">("from")
+
+    const {email, firstName, lastName, phone, userId} = useAppSelector(selectorGetProfileData)
     const trip = useAppSelector(selectorTripById)
-    const appStatus = useAppSelector(getAppStatus)
+    const appStatus = useAppSelector(selectorGetAppStatus)
 
+    const navigate = useNavigate()
     const dispatch = useAppDispatch()
 
-    const [townFrom, townTo] = direction.split("-")
-
-    const handleOpen = (field:"from"|"to")=>{
+    const handleOpen = (field: "from" | "to") => {
         setField(field)
         setOpen(true)
     }
-    const handleClose = ()=>{
+    const handleClose = () => {
         setOpen(false)
     }
+    const [townFrom, townTo] = direction.split("-")
 
-    const {control, handleSubmit, formState: {isValid}, getValues,setValue} = useForm<AddPassengerFormType>({mode: "all"});
-    const onSubmit: SubmitHandler<AddPassengerFormType> = (data,event) => {
-        event?.preventDefault()
-        event?.stopPropagation()
-        const newPassenger:CreatePassengerDto = {...data,userId:userId,tripId:trip!.tripId}
-        dispatch(addPassengerTC(newPassenger))
+    const {
+        control,
+        handleSubmit,
+        formState: {isValid},
+        getValues,
+        setValue
+    } = useForm<AddPassengerFormType>({mode: "all"});
+
+    const onSubmit: SubmitHandler<AddPassengerFormType> = (data, event) => {
+        const passenger: CreatePassengerDto = {...data, userId: userId, tripId: trip!.tripId}
+
+        navigate("/trip/book", {
+            state: {
+                passenger,
+                trip
+            }
+        })
     };
-    useEffect(()=>{
+    useEffect(() => {
         setValue("from", townFrom)
         setValue("to", townTo)
-    },[])
+    }, [])
     return (
         <>
             <Box component="form" onSubmit={handleSubmit(onSubmit)} sx={{px: 3}}>
@@ -146,20 +131,22 @@ const AddPassengerFrom = ({direction}: AddPassengerFromPropsType) => {
 
                     <Grid item xs={12} sm={6}>
                         <TextField
+                            label={"Откуда"}
                             spellCheck={false}
                             multiline
-                            onClick={() =>  handleOpen("from")}
+                            onClick={() => handleOpen("from")}
                             fullWidth
-                            value={getValues('from')||townFrom}/>
+                            value={getValues('from') || townFrom}/>
                     </Grid>
 
                     <Grid item xs={12} sm={6}>
                         <TextField
+                            label={"Куда"}
                             spellCheck={false}
                             multiline
                             onClick={() => handleOpen("to")}
                             fullWidth
-                            value={getValues('to')||townTo}/>
+                            value={getValues('to') || townTo}/>
                     </Grid>
 
                 </Grid>
@@ -182,6 +169,7 @@ const AddPassengerFrom = ({direction}: AddPassengerFromPropsType) => {
                 setOpen={setOpen}
                 open={open}
                 setValue={setValue}/>
+
         </>
 
     );

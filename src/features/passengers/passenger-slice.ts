@@ -1,32 +1,44 @@
 import {createAsyncThunk, createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {TripType, TripsSearchEntitiesType} from "../../common/types/trip-types";
-import {Car} from "../../common/types/car-types";
 import {appActions} from "../app/appSlice";
 import {AxiosError} from "axios";
 import {handleServerNetworkError} from "../../common/utils/error-handle-utils";
 import {AppDispatch} from "../../common/store/store";
-import {tripApi} from "../trip/trip-api";
-import {adminActions} from "../admin/admin-slice";
-import {CreatePassengerDto} from "../../common/types/passengers-types";
+import {CreatePassengerDto, PassengerType} from "../../common/types/passengers-types";
 import {passengersApi} from "./passenger-api";
 
 type PassengersStateType = {
-
+    isAdded: boolean | null
+    addedPassenger: null | PassengerType
+    passengersList: null | PassengerType[]
 }
 const initialState: PassengersStateType = {
-
+    passengersList: null,
+    addedPassenger: null,
+    isAdded: null
 }
 
 export const passengersSlice = createSlice({
     name: 'passengers',
     initialState,
     reducers: {
+        setAddedPassenger: (state, action: PayloadAction<PassengerType>) => {
+            state.addedPassenger = action.payload
+        },
+        setIsAdded: (state, action: PayloadAction<boolean>) => {
+            state.isAdded = action.payload
+        },
+        setPassengersList: (state, action: PayloadAction<PassengerType[]>) => {
+            state.passengersList = action.payload
+        },
 
     },
     /*extraReducers: (builder) => {
         builder.addCase(authMeTC.fulfilled, (state, action) => {
         });*/
 })
+
+export const passengersActions = passengersSlice.actions
+export const passengersReducer = passengersSlice.reducer
 
 export const addPassengerTC = createAsyncThunk('passengers/addPassenger', async (passenger:CreatePassengerDto, {dispatch}) => {
 
@@ -35,7 +47,8 @@ export const addPassengerTC = createAsyncThunk('passengers/addPassenger', async 
     try {
         const addedPassenger = await passengersApi.addPassenger(passenger)
 
-        console.log(addedPassenger)
+        dispatch(passengersActions.setIsAdded(true))
+        dispatch(passengersActions.setAddedPassenger(addedPassenger))
 
         dispatch(appActions.changeAppStatus("succeeded"))
 

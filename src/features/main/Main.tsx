@@ -1,6 +1,6 @@
 import React from 'react';
 import {Box} from "@mui/material";
-import {TripSearch} from "./trip-search/TripSearch";
+import {TripsSearch} from "../trips/TripsSearch";
 import {useNavigate} from "react-router-dom";
 
 const Main = () => {
@@ -9,7 +9,7 @@ const Main = () => {
 
     return (
         <Box sx={{}}>
-            <TripSearch navigateOption={() => navigate("searchresults")}/>
+            <TripsSearch navigateOption={() => navigate("searchresults")}/>
         </Box>
     );
 };
