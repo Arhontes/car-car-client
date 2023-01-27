@@ -17,7 +17,7 @@ import {VWCircular} from "../../common/components/CircularProgress";
 import {Admin} from '../admin/Admin';
 import Main from "../main/Main";
 import {TripsList} from "../trips/TripsList";
-import Trip from '../trips/Trip';
+import TripWithAddedForm from '../trips/TripWithAddedForm';
 import Book from "../passengers/Book";
 
 export const App = () => {
@@ -56,7 +56,7 @@ export const App = () => {
                             <Route path={'register'} element={<SignUp/>}/>
                             <Route path={'profile'} element={<Profile/>}/>
                             <Route path={'searchresults'} element={<TripsList/>}/>
-                            <Route path={'trip/:tripId'} element={<Trip/>}/>
+                            <Route path={'trip/:tripId'} element={<TripWithAddedForm/>}/>
                             <Route path={'trip/book'} element={<Book />}/>
 
 

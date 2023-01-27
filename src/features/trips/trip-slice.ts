@@ -30,14 +30,14 @@ export const tripsSlice = createSlice({
 })
 
 export const tripsReducer = tripsSlice.reducer
-
+export const tripActions = tripsSlice.actions
 export const getTripsTC = createAsyncThunk('trips/getTrips', async (params: TripsSearchEntitiesType, {dispatch}) => {
 
     dispatch(appActions.changeAppStatus("loading"))
 
     try {
         const result = await tripApi.getTrips(params)
-        dispatch(adminActions.setTrips(result))
+        dispatch(tripActions.setTrips(result))
         dispatch(appActions.changeAppStatus("succeeded"))
 
     } catch (error) {
@@ -54,7 +54,7 @@ export const getTripByIdTC = createAsyncThunk('trips/getTripById', async (tripId
     try {
         const result = await tripApi.getTripById(tripId)
 
-        dispatch(adminActions.setTripById(result))
+        dispatch(tripActions.setTripById(result))
         dispatch(appActions.changeAppStatus("succeeded"))
 
     } catch (error) {

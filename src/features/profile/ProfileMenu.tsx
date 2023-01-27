@@ -1,10 +1,9 @@
 import React from 'react';
 import {Box, Tab, Tabs} from "@mui/material";
 import Typography from "@mui/material/Typography";
-import TextField from "@mui/material/TextField";
 import {UserType} from "../../common/types/common-types";
-import IconButton from "@mui/material/IconButton";
-import EditRoundedIcon from '@mui/icons-material/EditRounded';
+import {ProfileInfo} from "./ProfileInfo";
+import ProfileTrips from "./ProfileTrips";
 
 interface TabPanelProps {
     children?: React.ReactNode;
@@ -40,29 +39,7 @@ function a11yProps(index: number) {
 }
 
 
-const ProfileInfo = ({phone, email, lastName, firstName}: UserType)=> {
-    const [disabled, setDisabled] = React.useState(true);
-    const changeDisabled = () => {
-        setDisabled(!disabled)
-    }
-
-    return (
-
-        <Box flexDirection={"column"} display={"flex"}>
-            <TextField margin="dense" value={firstName||""} label="Имя" variant="outlined" disabled={disabled}/>
-            <TextField margin="dense" value={lastName||""} label="Фамилия" variant="outlined" disabled={disabled}/>
-            <TextField margin="dense" value={phone||""} label="Телефон" variant="outlined" disabled={disabled}/>
-            <TextField margin="dense" value={email||""} label="Email" variant="outlined" disabled={disabled}/>
-            <IconButton onClick={changeDisabled} color="primary" aria-label="edit profile ">
-                <EditRoundedIcon/>
-            </IconButton>
-        </Box>
-    )
-
-}
-
-
-export const ProfileDialog = (props: UserType) => {
+export const ProfileMenu = (props: UserType) => {
 
     const [value, setValue] = React.useState(0);
 
@@ -85,11 +62,7 @@ export const ProfileDialog = (props: UserType) => {
                 <ProfileInfo {...props}/>
             </TabPanel>
             <TabPanel value={value} index={1}>
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                Ab amet, distinctio dolorum eius eos
-                excepturi expedita facere ipsam optio porro
-                sunt temporibus. Beatae, doloribus ea eum
-                nulla odio ut voluptatibus!
+                <ProfileTrips userId={props.userId!}/>
             </TabPanel>
 
         </Box>

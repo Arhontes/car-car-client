@@ -7,12 +7,14 @@ export type PassengerType = UserType & {
     to: string | null
     approved: boolean | null
     reservedTime: string | null
+    date: number| null
 }
 
 export type CreatePassengerDto = UserType & {
     from: string
     to: string
     tripId: string
+    date:number
 }
 export type UpdatePassengerDto = {
     phone: string;
@@ -25,4 +27,5 @@ export type UpdatePassengerDto = {
     userId: string;
     approved: boolean;
     reservedTime: string;
+    date:number
 }

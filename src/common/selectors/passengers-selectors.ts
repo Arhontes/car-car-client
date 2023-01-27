@@ -11,3 +11,8 @@ export const selectorCheckIsPassengerAdded = (state:RootState)=>{
 export const selectorGetPassengersList = (state:RootState)=>{
     return state.passengers.passengersList
 }
+export type PassengersSearchEntities = {
+    tripId?: string;
+    userId?: string;
+    approved?: boolean;
+}

@@ -9,8 +9,8 @@ import Box from "@mui/material/Box";
 import {useAppDispatch} from "../../common/hooks/useAppDispatch";
 import {selectorGetAppStatus} from "../../common/selectors/app-selectors";
 import {SubmitHandler, useForm} from "react-hook-form";
-import {TripDirection} from "../../common/types/trip-types";
-import {TextField} from "@mui/material";
+import {TripDirection, TripType} from "../../common/types/trip-types";
+import {Paper, TextField} from "@mui/material";
 import Destination from "../../common/components/Destination";
 import {CreatePassengerDto} from "../../common/types/passengers-types";
 import {selectorTripById} from "../../common/selectors/trips-selectors";
@@ -26,19 +26,18 @@ export type AddPassengerFormType = {
 }
 type AddPassengerFromPropsType = {
     direction: TripDirection
-
+    trip: TripType
 }
-const AddPassengerFrom = ({direction}: AddPassengerFromPropsType) => {
+const AddPassengerForm = ({trip,direction}: AddPassengerFromPropsType) => {
     const [open, setOpen] = useState(false)
 
     const [field, setField] = useState<"from" | "to">("from")
 
     const {email, firstName, lastName, phone, userId} = useAppSelector(selectorGetProfileData)
-    const trip = useAppSelector(selectorTripById)
+
     const appStatus = useAppSelector(selectorGetAppStatus)
 
     const navigate = useNavigate()
-    const dispatch = useAppDispatch()
 
     const handleOpen = (field: "from" | "to") => {
         setField(field)
@@ -58,7 +57,8 @@ const AddPassengerFrom = ({direction}: AddPassengerFromPropsType) => {
     } = useForm<AddPassengerFormType>({mode: "all"});
 
     const onSubmit: SubmitHandler<AddPassengerFormType> = (data, event) => {
-        const passenger: CreatePassengerDto = {...data, userId: userId, tripId: trip!.tripId}
+
+        const passenger: CreatePassengerDto = {...data, userId: userId, tripId: trip!.tripId,date: trip.date }
 
         navigate("/trip/book", {
             state: {
@@ -72,7 +72,7 @@ const AddPassengerFrom = ({direction}: AddPassengerFromPropsType) => {
         setValue("to", townTo)
     }, [])
     return (
-        <>
+        <Paper>
             <Box component="form" onSubmit={handleSubmit(onSubmit)} sx={{px: 3}}>
 
                 <Grid container spacing={1}>
@@ -170,9 +170,9 @@ const AddPassengerFrom = ({direction}: AddPassengerFromPropsType) => {
                 open={open}
                 setValue={setValue}/>
 
-        </>
+        </Paper>
 
     );
 };
 
-export default AddPassengerFrom;
+export default AddPassengerForm;

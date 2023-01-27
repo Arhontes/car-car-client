@@ -4,7 +4,7 @@ import {selectorGetProfileData} from "../../common/selectors/profile-selectors";
 import {checkIsAuth} from "../../common/selectors/auth-selectors";
 import {useNavigate} from "react-router-dom";
 import {Dialog, DialogContent} from "@mui/material";
-import {ProfileDialog} from "./ProfileDialog";
+import {ProfileMenu} from "./ProfileMenu";
 
 
 const Profile = () => {
@@ -18,6 +18,7 @@ const Profile = () => {
     }
     const isAuth = useAppSelector(checkIsAuth)
     const navigate = useNavigate()
+
     useEffect(() => {
         if (!isAuth) {
             navigate('/login', {replace: true})
@@ -33,7 +34,7 @@ const Profile = () => {
             aria-labelledby="alert-dialog-profile"
             aria-describedby="alert-dialog-profile-description">
             <DialogContent>
-                <ProfileDialog {...profile}/>
+                <ProfileMenu {...profile}/>
             </DialogContent>
         </Dialog>
     );

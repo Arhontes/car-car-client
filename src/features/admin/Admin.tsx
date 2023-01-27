@@ -7,7 +7,7 @@ import Box from "@mui/material/Box";
 import {Tab, Tabs, Typography} from "@mui/material";
 import {useAppDispatch} from "../../common/hooks/useAppDispatch";
 import {AdminTripItem} from "./AdminTripItem";
-import {selectorTrips} from "../../common/selectors/trips-selectors";
+import {selectorGetTrips} from "../../common/selectors/trips-selectors";
 import {getTripsTC} from "../trips/trip-slice";
 
 interface TabPanelProps {
@@ -48,7 +48,7 @@ export const Admin = () => {
     const isAuth = useAppSelector(checkIsAuth)
     const profile = useAppSelector(selectorGetProfileData)
     const navigate = useNavigate()
-    const trips = useAppSelector(selectorTrips)
+    const trips = useAppSelector(selectorGetTrips)
     const dispatch = useAppDispatch()
 
     /* useEffect(() => {

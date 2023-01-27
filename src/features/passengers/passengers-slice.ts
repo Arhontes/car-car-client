@@ -4,10 +4,11 @@ import {AxiosError} from "axios";
 import {handleServerNetworkError} from "../../common/utils/error-handle-utils";
 import {AppDispatch} from "../../common/store/store";
 import {CreatePassengerDto, PassengerType} from "../../common/types/passengers-types";
-import {passengersApi} from "./passenger-api";
+import {passengersApi} from "./passengers-api";
+import {PassengersSearchEntities} from "../../common/selectors/passengers-selectors";
 
 type PassengersStateType = {
-    isAdded: boolean | null
+    isAdded: null | boolean
     addedPassenger: null | PassengerType
     passengersList: null | PassengerType[]
 }
@@ -40,7 +41,7 @@ export const passengersSlice = createSlice({
 export const passengersActions = passengersSlice.actions
 export const passengersReducer = passengersSlice.reducer
 
-export const addPassengerTC = createAsyncThunk('passengers/addPassenger', async (passenger:CreatePassengerDto, {dispatch}) => {
+export const addPassengerTC = createAsyncThunk('passengers/addPassenger', async (passenger: CreatePassengerDto, {dispatch}) => {
 
     dispatch(appActions.changeAppStatus("loading"))
 
@@ -49,6 +50,24 @@ export const addPassengerTC = createAsyncThunk('passengers/addPassenger', async 
 
         dispatch(passengersActions.setIsAdded(true))
         dispatch(passengersActions.setAddedPassenger(addedPassenger))
+
+        dispatch(appActions.changeAppStatus("succeeded"))
+
+    } catch (error) {
+        const err = error as AxiosError
+        handleServerNetworkError(err, dispatch as AppDispatch)
+    }
+
+})
+
+export const getPassengersTC = createAsyncThunk('passengers/getPassengers', async (params: PassengersSearchEntities, {dispatch}) => {
+
+    dispatch(appActions.changeAppStatus("loading"))
+
+    try {
+        const passengers = await passengersApi.findPassengers(params)
+
+        dispatch(passengersActions.setPassengersList(passengers))
 
         dispatch(appActions.changeAppStatus("succeeded"))
 

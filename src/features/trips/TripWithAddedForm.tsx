@@ -2,22 +2,25 @@ import React, {useEffect, useState} from 'react';
 import {useParams} from "react-router-dom";
 import {useAppDispatch} from "../../common/hooks/useAppDispatch";
 import {useAppSelector} from "../../common/hooks/useAppSelector";
-import {Box, Button, Container, Paper} from "@mui/material";
+import {Box, Button, Container} from "@mui/material";
 import {TripType} from "../../common/types/trip-types";
 import ControlPointIcon from '@mui/icons-material/ControlPoint';
-import AddPassengerFrom from "../passengers/AddPassengerFrom";
-import {selectorTripById, selectorTrips} from "../../common/selectors/trips-selectors";
+import AddPassengerForm from "../passengers/AddPassengerForm";
+import {selectorTripById, selectorGetTrips} from "../../common/selectors/trips-selectors";
 import {getTripByIdTC} from "./trip-slice";
 import {CustomTripCard} from "./CustomTripCard";
 
-const Trip = () => {
-    const [open,setOpen] = useState(false)
+const TripWithAddedForm = () => {
+
+    const [open, setOpen] = useState(false)
     let {tripId} = useParams();
-    let trip = useAppSelector(selectorTrips)?.find(el => el.tripId === tripId) as TripType | null
+
+    let trip = useAppSelector(selectorGetTrips)?.find(el => el.tripId === tripId) as TripType | null
+
+
     const tripById = useAppSelector(selectorTripById)
 
-    if (!trip) trip = tripById
-
+    if (!trip ) trip = tripById
 
     const dispatch = useAppDispatch()
 
@@ -27,25 +30,21 @@ const Trip = () => {
         }
     }, [tripId])
 
-
     return (
         !trip ? <div>Не найдено</div>
-            : <Container  maxWidth="sm"  sx={{display:"flex", flexDirection:"column",alignItems:"center"}}>
+            : <Container maxWidth="sm" sx={{display: "flex", flexDirection: "column", alignItems: "center"}}>
 
                 <CustomTripCard {...trip}/>
 
-                <Button onClick={()=>setOpen(true)} sx={{marginY:3}} variant="text" endIcon={<ControlPointIcon/>}>
+                <Button onClick={() => setOpen(true)} sx={{marginY: 3}} variant="text" endIcon={<ControlPointIcon/>}>
                     Забронировать
                 </Button>
 
-                {open&&<Box>
-                    <Paper>
-                        <AddPassengerFrom direction={trip.direction}/>
-                    </Paper>
-
+                {open && <Box>
+                    <AddPassengerForm trip={trip} direction={trip.direction}/>
                 </Box>}
             </Container>
     );
 };
 
-export default Trip;
+export default TripWithAddedForm;

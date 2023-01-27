@@ -5,7 +5,7 @@ import {Button, Container, Dialog, Paper, Table, TableBody, TableCell, TableCont
 import {TripType} from "../../common/types/trip-types";
 import dayjs from "dayjs";
 import {useAppDispatch} from "../../common/hooks/useAppDispatch";
-import {addPassengerTC, passengersActions} from "./passenger-slice";
+import {addPassengerTC, passengersActions} from "./passengers-slice";
 import {useAppSelector} from "../../common/hooks/useAppSelector";
 import {selectorCheckIsPassengerAdded, selectorGetAddedPassenger} from "../../common/selectors/passengers-selectors";
 import {selectorGetAppStatus} from "../../common/selectors/app-selectors";
