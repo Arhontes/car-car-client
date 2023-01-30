@@ -13,7 +13,7 @@ import {TripDirection, TripType} from "../../common/types/trip-types";
 import {Paper, TextField} from "@mui/material";
 import Destination from "../../common/components/Destination";
 import {CreatePassengerDto} from "../../common/types/passengers-types";
-import {selectorTripById} from "../../common/selectors/trips-selectors";
+import {selectorGetTripById} from "../../common/selectors/trips-selectors";
 import {useNavigate} from "react-router-dom";
 
 export type AddPassengerFormType = {

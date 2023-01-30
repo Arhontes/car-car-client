@@ -6,7 +6,7 @@ import {Box, Button, Container} from "@mui/material";
 import {TripType} from "../../common/types/trip-types";
 import ControlPointIcon from '@mui/icons-material/ControlPoint';
 import AddPassengerForm from "../passengers/AddPassengerForm";
-import {selectorTripById, selectorGetTrips} from "../../common/selectors/trips-selectors";
+import {selectorGetTripById, selectorGetTrips} from "../../common/selectors/trips-selectors";
 import {getTripByIdTC} from "./trip-slice";
 import {CustomTripCard} from "./CustomTripCard";
 
@@ -18,7 +18,7 @@ const TripWithAddedForm = () => {
     let trip = useAppSelector(selectorGetTrips)?.find(el => el.tripId === tripId) as TripType | null
 
 
-    const tripById = useAppSelector(selectorTripById)
+    const tripById = useAppSelector(selectorGetTripById)
 
     if (!trip ) trip = tripById
 
