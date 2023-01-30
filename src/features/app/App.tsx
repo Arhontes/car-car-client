@@ -19,6 +19,7 @@ import Main from "../main/Main";
 import {TripsList} from "../trips/TripsList";
 import TripWithAddedForm from '../trips/TripWithAddedForm';
 import Book from "../passengers/Book";
+import {AdminTripTable} from "../admin/AdminTripTable";
 
 export const App = () => {
 
@@ -56,6 +57,7 @@ export const App = () => {
                             <Route path={'register'} element={<SignUp/>}/>
                             <Route path={'profile'} element={<Profile/>}/>
                             <Route path={'searchresults'} element={<TripsList/>}/>
+                            <Route path={'admin/trips'} element={<AdminTripTable/>}/>
                             <Route path={'trip/:tripId'} element={<TripWithAddedForm/>}/>
                             <Route path={'trip/book'} element={<Book />}/>
 
