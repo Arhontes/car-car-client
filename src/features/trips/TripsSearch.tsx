@@ -6,6 +6,7 @@ import {CustomDatePicker} from "../../common/components/CustomDatePicker";
 import {useAppDispatch} from "../../common/hooks/useAppDispatch";
 import dayjs, {Dayjs} from "dayjs";
 import {getTripsTC} from "./trip-slice";
+import {getDateInMilliseconds} from "../../common/utils/getDateInMilliseconds";
 
 type TripSearchPropsType = {
     navigateOption: () => void
@@ -26,7 +27,7 @@ export const TripsSearch = ({navigateOption}: TripSearchPropsType) => {
     }
 
     const redirectHandler = () => {
-        const dateInMillisecond = (dayjs(datePickerValue).unix() * 1000).toString()
+        const dateInMillisecond = getDateInMilliseconds(datePickerValue)
         dispatch(getTripsTC({date: dateInMillisecond, direction: direction}))
         navigateOption()
 
