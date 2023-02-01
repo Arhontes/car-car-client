@@ -12,4 +12,8 @@ export const passengersApi = {
         const result = await axiosInstance.get<PassengerType[]>("passengers", {params})
         return result.data
     },
+    async removePassenger(passengerId:string) {
+        const result = await axiosInstance.delete<PassengerType>(`passengers/${passengerId}`,)
+        return result.data
+    },
 }

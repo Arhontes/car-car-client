@@ -1,8 +1,12 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {TripType} from "../../common/types/trip-types";
 import {Box, Tab, Tabs, Typography} from "@mui/material";
-import {AdminPassengersCardForm} from "./AdminPassengersCardForm";
+import {AdminPassengersList} from "./AdminPassengersList";
 import {AdminTripCardForm} from "./AdminTripCardForm";
+import {useAppSelector} from "../../common/hooks/useAppSelector";
+import {selectorGetPassengersList} from "../../common/selectors/passengers-selectors";
+import {getPassengersTC, removePassengerTC} from "../passengers/passengers-slice";
+import {useAppDispatch} from "../../common/hooks/useAppDispatch";
 
 interface TabPanelProps {
     children?: React.ReactNode;
@@ -38,11 +42,22 @@ function a11yProps(index: number) {
 }
 
 export const AdminTripCard = (props: TripType) => {
-    const [value, setValue] = React.useState(0);
 
+    const [value, setValue] = React.useState(0);
+    const dispatch = useAppDispatch()
     const handleChange = (event: React.SyntheticEvent, newValue: number) => {
         setValue(newValue);
     };
+
+    const passengers = useAppSelector(selectorGetPassengersList)
+
+    const removePassengerHandler = (passengerId:string)=>{
+        dispatch(removePassengerTC(passengerId))
+    }
+
+    useEffect(()=>{
+        dispatch(getPassengersTC({tripId:props.tripId}))
+    },[props.tripId])
 
     return (
         <Box sx={{width: '100%'}}>
@@ -56,7 +71,10 @@ export const AdminTripCard = (props: TripType) => {
                 <AdminTripCardForm {...props}/>
             </TabPanel>
             <TabPanel value={value} index={1}>
-                <AdminPassengersCardForm {...props}/>
+                <AdminPassengersList
+                    passengers={passengers}
+                    trip={props}
+                    removePassengerHandler={removePassengerHandler} />
             </TabPanel>
 
         </Box>

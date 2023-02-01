@@ -31,6 +31,13 @@ export const passengersSlice = createSlice({
         setPassengersList: (state, action: PayloadAction<PassengerType[]>) => {
             state.passengersList = action.payload
         },
+        removePassenger: (state, action: PayloadAction<string>) => {
+            return {
+                ...state,
+                passengersList: state.passengersList!.filter(el=>el.passengerId!==action.payload)
+            }
+        },
+
 
     },
     /*extraReducers: (builder) => {
@@ -41,7 +48,7 @@ export const passengersSlice = createSlice({
 export const passengersActions = passengersSlice.actions
 export const passengersReducer = passengersSlice.reducer
 
-export const addPassengerTC = createAsyncThunk('passengers/addPassenger', async (passenger: CreatePassengerDto, {dispatch}) => {
+export const addPassengerTC = createAsyncThunk('passengers/add', async (passenger: CreatePassengerDto, {dispatch}) => {
 
     dispatch(appActions.changeAppStatus("loading"))
 
@@ -60,7 +67,7 @@ export const addPassengerTC = createAsyncThunk('passengers/addPassenger', async 
 
 })
 
-export const getPassengersTC = createAsyncThunk('passengers/getPassengers', async (params: PassengersSearchEntities, {dispatch}) => {
+export const getPassengersTC = createAsyncThunk('passengers/getAll', async (params: PassengersSearchEntities, {dispatch}) => {
 
     dispatch(appActions.changeAppStatus("loading"))
 
@@ -68,6 +75,23 @@ export const getPassengersTC = createAsyncThunk('passengers/getPassengers', asyn
         const passengers = await passengersApi.findPassengers(params)
 
         dispatch(passengersActions.setPassengersList(passengers))
+
+        dispatch(appActions.changeAppStatus("succeeded"))
+
+    } catch (error) {
+        const err = error as AxiosError
+        handleServerNetworkError(err, dispatch as AppDispatch)
+    }
+
+})
+export const removePassengerTC = createAsyncThunk('passengers/removeOne', async (passengerId:string, {dispatch}) => {
+
+    dispatch(appActions.changeAppStatus("loading"))
+
+    try {
+        const passengers = await passengersApi.removePassenger(passengerId)
+
+        dispatch(passengersActions.removePassenger(passengerId))
 
         dispatch(appActions.changeAppStatus("succeeded"))
 
