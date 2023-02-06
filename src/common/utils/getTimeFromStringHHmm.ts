@@ -1,9 +1,12 @@
+import dayjs from "dayjs";
+
 export const getTimeFromStringHHmm = (value:string)=>{
+    //value format is HH:MM
     const [hours,minutes]  = value.split(":")
 
-    const someDate = new Date()
-    someDate.setHours(Number(hours))
-    someDate.setMinutes(Number(minutes))
+    const someDate = dayjs()
+        .hour(Number(hours))
+        .minute(Number(minutes))
 
     return someDate
 }
