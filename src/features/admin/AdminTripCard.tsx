@@ -1,12 +1,14 @@
-import React, {useEffect} from 'react';
-import {TripType} from "../../common/types/trip-types";
+import React, {useCallback, useEffect} from 'react';
+import {TripType, UpdateTripDto} from "../../common/types/trip-types";
 import {Box, Tab, Tabs, Typography} from "@mui/material";
 import {AdminPassengersList} from "./AdminPassengersList";
 import {AdminTripCardForm} from "./AdminTripCardForm";
 import {useAppSelector} from "../../common/hooks/useAppSelector";
 import {selectorGetPassengersList} from "../../common/selectors/passengers-selectors";
-import {getPassengersTC, removePassengerTC} from "../passengers/passengers-slice";
+import {getPassengersTC, removePassengerTC, updatePassengerTC} from "../passengers/passengers-slice";
 import {useAppDispatch} from "../../common/hooks/useAppDispatch";
+import {UpdatePassengerDto} from "../../common/types/passengers-types";
+import {updateTripTC} from "../trips/trip-slice";
 
 interface TabPanelProps {
     children?: React.ReactNode;
@@ -51,9 +53,18 @@ export const AdminTripCard = (props: TripType) => {
 
     const passengers = useAppSelector(selectorGetPassengersList)
 
-    const removePassengerHandler = (passengerId:string)=>{
+    const updateTrip = useCallback((tripId:string,updateDto:UpdateTripDto)=>{
+        dispatch(updateTripTC({tripId,updateDto}))
+    },[])
+
+
+    const updatePassenger = useCallback((passengerId:string,updateDto:UpdatePassengerDto)=>{
+        dispatch(updatePassengerTC({passengerId,updateDto}))
+    },[dispatch] )
+
+    const removePassenger = useCallback((passengerId:string)=>{
         dispatch(removePassengerTC(passengerId))
-    }
+    },[dispatch])
 
     useEffect(()=>{
         dispatch(getPassengersTC({tripId:props.tripId}))
@@ -68,13 +79,14 @@ export const AdminTripCard = (props: TripType) => {
                 </Tabs>
             </Box>
             <TabPanel value={value} index={0}>
-                <AdminTripCardForm {...props}/>
+                <AdminTripCardForm trip={props} updateTrip={updateTrip}/>
             </TabPanel>
             <TabPanel value={value} index={1}>
                 <AdminPassengersList
+                    updatePassenger={updatePassenger}
                     passengers={passengers}
                     trip={props}
-                    removePassengerHandler={removePassengerHandler} />
+                    removePassenger={removePassenger} />
             </TabPanel>
 
         </Box>

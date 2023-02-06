@@ -38,7 +38,7 @@ export const AdminTripTable = () => {
 
                     <TableBody>
                         {
-                            trips?.length ? trips.map(trip => <AdminTripTableRow {...trip}/>) : <div>Не найдено</div>
+                            trips?.length ? trips.map(trip => <AdminTripTableRow key={trip.tripId} {...trip}/>) : <tr key={"none"}><td >Не найдено</td></tr>
                         }
                     </TableBody>
                 </Table>

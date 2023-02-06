@@ -1,25 +1,29 @@
 import {TripType} from "../../common/types/trip-types";
 import AdminPassengerItem from "./AdminPassengerItem";
-import {PassengerType} from "../../common/types/passengers-types";
+import {PassengerType, UpdatePassengerDto} from "../../common/types/passengers-types";
 import {Box, Button} from "@mui/material";
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import {useAppDispatch} from "../../common/hooks/useAppDispatch";
 
 type AdminPassengersListPropsType = {
     trip: TripType
     passengers: PassengerType[] | null
-    removePassengerHandler: (passengerId: string) => void
+    removePassenger: (passengerId: string) => void
+    updatePassenger: (passengerId: string, updateDto: UpdatePassengerDto) => void
 }
 
-export const AdminPassengersList = ({passengers, removePassengerHandler}: AdminPassengersListPropsType) => {
+export const AdminPassengersList = ({passengers,...restProps}: AdminPassengersListPropsType) => {
+
 
 
     return (
         <Box sx={{display: "flex", flexDirection: "column", alignItems: "center"}}>
             {
                 passengers?.length
-                    ?
-                    passengers.map(passenger => <AdminPassengerItem
-                        removePassengerHandler={removePassengerHandler}
+                    ? passengers.map(passenger => <AdminPassengerItem
+                        key={passenger.passengerId}
+                        updatePassenger={restProps.updatePassenger}
+                        removePassenger={restProps.removePassenger}
                         passenger={passenger}/>)
                     : <div>
                         Пассажиров нет

@@ -1,8 +1,7 @@
-import {TripType} from "../../common/types/trip-types";
+import {TripDirection, TripType, UpdateTripDto} from "../../common/types/trip-types";
 import {Controller, SubmitHandler, useForm} from "react-hook-form";
 import {getTimeFromStringHHmm} from "../../common/utils/getTimeFromStringHHmm";
 import {millisecondsToLocalDate} from "../../common/utils/millisecondsToLocalDate";
-import {useAppDispatch} from "../../common/hooks/useAppDispatch";
 import {getTimeFromDayjs} from "../../common/utils/getTimeFromDayjs";
 import {getDateInMilliseconds} from "../../common/utils/getDateInMilliseconds";
 import {Box, MenuItem} from "@mui/material";
@@ -19,30 +18,35 @@ import React from "react";
 import {Dayjs} from "dayjs";
 
 type AdminTripCardFormType = {
-    direction: "Arkhangels-Onega" | "Onega-Arkhangels"
+    direction: TripDirection
     date: Dayjs
     time: Dayjs
 }
 const directions = ["Arkhangels-Onega", "Onega-Arkhangels"]
-export const AdminTripCardForm = (props: TripType) => {
 
-    const {control, handleSubmit, formState: {isValid}, getValues} = useForm<AdminTripCardFormType>({
+type AdminTripCardFormPropsType = {
+    trip:TripType,
+    updateTrip:(tripId: string, updateDto: UpdateTripDto) => void
+}
+
+export const AdminTripCardForm = ({trip,...restProps}: AdminTripCardFormPropsType) => {
+
+
+    const {control, handleSubmit, formState: {isValid}, getValues,setError} = useForm<AdminTripCardFormType>({
         mode: "all", defaultValues: {
-            time: getTimeFromStringHHmm(props.startTime),
-            date: millisecondsToLocalDate(props.date)
+            time: getTimeFromStringHHmm(trip.startTime),
+            date: millisecondsToLocalDate(trip.date)
         }
     })
 
-    const dispatch = useAppDispatch()
-
     const onSubmit: SubmitHandler<AdminTripCardFormType> = data => {
-
-        const time = getTimeFromDayjs(data.time)
+        const startTime = getTimeFromDayjs(data.time)
         const date = getDateInMilliseconds(data.date)
-        console.dir({
-            date,
-            time,
-            direction: data.direction
+
+        restProps.updateTrip(trip.tripId,{
+            startTime,
+            date:Number(date),
+            direction:data.direction
         })
     };
     return (
@@ -107,14 +111,15 @@ export const AdminTripCardForm = (props: TripType) => {
                     />
                 </Grid>
 
-                <Button
-                    type="submit"
-                    fullWidth
-                    variant="contained"
-                    sx={{mt: 3, mb: 2}}
-                >
-                    Подтвердить
-                </Button>
+                    <Button
+                        type={"submit"}
+                        fullWidth
+                        variant="contained"
+                        sx={{mt: 3, mb: 2}}
+                    >
+                        Подтвердить
+                    </Button>
+
             </Grid>
         </Box>
     )

@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Box, Checkbox, FormControlLabel, Typography} from "@mui/material";
+import {Box, Checkbox} from "@mui/material";
 
 type AdminCheckboxPropsType = {
     checked:boolean
