@@ -1,5 +1,5 @@
 import {axiosInstance} from "../../common/api/axios-instance";
-import {CreateTripDto, TripType, TripsSearchEntitiesType} from "../../common/types/trip-types";
+import {CreateTripDto, TripType, TripsSearchEntitiesType, UpdateTripDto} from "../../common/types/trip-types";
 
 export const tripApi = {
     async createTrip(trip: CreateTripDto) {
@@ -12,6 +12,10 @@ export const tripApi = {
     },
     async getTripById(tripId:string) {
         const result = await axiosInstance.get<TripType>(`trip/${tripId}`, )
+        return result.data
+    },
+    async updateTrip(tripId:string, updateDto:UpdateTripDto) {
+        const result = await axiosInstance.patch<TripType>(`trip/${tripId}`, updateDto)
         return result.data
     },
 

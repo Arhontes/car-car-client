@@ -3,7 +3,7 @@ import {appActions} from "../app/appSlice";
 import {AxiosError} from "axios";
 import {handleServerNetworkError} from "../../common/utils/error-handle-utils";
 import {AppDispatch} from "../../common/store/store";
-import {CreatePassengerDto, PassengerType} from "../../common/types/passengers-types";
+import {CreatePassengerDto, PassengerType, UpdatePassengerDto} from "../../common/types/passengers-types";
 import {passengersApi} from "./passengers-api";
 import {PassengersSearchEntities} from "../../common/selectors/passengers-selectors";
 
@@ -34,7 +34,15 @@ export const passengersSlice = createSlice({
         removePassenger: (state, action: PayloadAction<string>) => {
             return {
                 ...state,
-                passengersList: state.passengersList!.filter(el=>el.passengerId!==action.payload)
+                passengersList: state.passengersList!.filter(el => el.passengerId !== action.payload)
+            }
+        },
+        updatePassenger: (state, action: PayloadAction<PassengerType>) => {
+            const index = state.passengersList?.findIndex(el => el.passengerId === action.payload.passengerId)
+            if (index && index > -1) {
+                if (state.passengersList) {
+                    state.passengersList[index] = action.payload
+                }
             }
         },
 
@@ -84,7 +92,7 @@ export const getPassengersTC = createAsyncThunk('passengers/getAll', async (para
     }
 
 })
-export const removePassengerTC = createAsyncThunk('passengers/removeOne', async (passengerId:string, {dispatch}) => {
+export const removePassengerTC = createAsyncThunk('passengers/removeOne', async (passengerId: string, {dispatch}) => {
 
     dispatch(appActions.changeAppStatus("loading"))
 
@@ -101,3 +109,21 @@ export const removePassengerTC = createAsyncThunk('passengers/removeOne', async 
     }
 
 })
+export const updatePassengerTC = createAsyncThunk('passengers/updateOne',
+    async (data: { passengerId: string, updateDto: UpdatePassengerDto }, {dispatch}) => {
+
+        dispatch(appActions.changeAppStatus("loading"))
+
+        try {
+            const passenger = await passengersApi.updatePassenger(data.passengerId,data.updateDto)
+
+            dispatch(passengersActions.updatePassenger(passenger))
+
+            dispatch(appActions.changeAppStatus("succeeded"))
+
+        } catch (error) {
+            const err = error as AxiosError
+            handleServerNetworkError(err, dispatch as AppDispatch)
+        }
+
+    })

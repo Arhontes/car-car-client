@@ -17,15 +17,12 @@ export type CreatePassengerDto = UserType & {
     date:number
 }
 export type UpdatePassengerDto = {
-    phone: string;
-    email: string;
-    from: string;
-    to: string;
-    firstName: string;
-    lastName: string;
-    tripId: string;
-    userId: string;
-    approved: boolean;
-    reservedTime: string;
-    date:number
+    phone?: string;
+    email?: string;
+    from?: string;
+    to?: string;
+    tripId?: string;
+    approved?: boolean;
+    reservedTime?: string;
+    date?:number
 }

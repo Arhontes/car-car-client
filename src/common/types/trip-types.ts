@@ -25,3 +25,9 @@ export type TripsSearchEntitiesType = {
      direction?: string;
      userId?: string;
 };
+
+export type UpdateTripDto = {
+     direction?:TripDirection
+     startTime?:string
+     date?:number
+}
