@@ -5,6 +5,7 @@ import {profileReducer} from "../../features/profile/profile-slice";
 import {adminReducer} from "../../features/admin/admin-slice";
 import {passengersReducer} from "../../features/passengers/passengers-slice";
 import {tripsReducer} from "../../features/trips/trip-slice";
+import {carsReducer} from "../../features/cars/cars-slice";
 
 export const store = configureStore({
     reducer: {
@@ -14,6 +15,7 @@ export const store = configureStore({
         admin:adminReducer,
         passengers: passengersReducer,
         trips: tripsReducer,
+        cars: carsReducer,
     },
 })
 

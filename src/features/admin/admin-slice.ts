@@ -1,6 +1,6 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {TripType} from "../../common/types/trip-types";
-import {Car} from "../../common/types/car-types";
+import {Car} from "../../common/types/cars-types";
 
 type AdminStateType = {
     trips: TripType[] | null,

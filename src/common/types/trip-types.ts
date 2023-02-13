@@ -1,4 +1,4 @@
-import {Car} from "./car-types";
+import {Car} from "./cars-types";
 import {PassengerType} from "./passengers-types";
 
 export type CreateTripDto = {
@@ -30,4 +30,5 @@ export type UpdateTripDto = {
      direction?:TripDirection
      startTime?:string
      date?:number
+     car?:Car
 }

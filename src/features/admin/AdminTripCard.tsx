@@ -9,6 +9,10 @@ import {getPassengersTC, removePassengerTC, updatePassengerTC} from "../passenge
 import {useAppDispatch} from "../../common/hooks/useAppDispatch";
 import {UpdatePassengerDto} from "../../common/types/passengers-types";
 import {updateTripTC} from "../trips/trip-slice";
+import {getCarsTC} from "../cars/cars-slice";
+import {selectorGetCars} from "../../common/selectors/cars-selectors";
+import AdminTripCar from "./AdminTripCar";
+import {Car} from "../../common/types/cars-types";
 
 interface TabPanelProps {
     children?: React.ReactNode;
@@ -52,23 +56,24 @@ export const AdminTripCard = (props: TripType) => {
     };
 
     const passengers = useAppSelector(selectorGetPassengersList)
+    const cars = useAppSelector(selectorGetCars)
+    //trip actions
+    const updateTrip = useCallback((tripId: string, updateDto: UpdateTripDto) => {
+        dispatch(updateTripTC({tripId, updateDto}))
+    }, [])
 
-    const updateTrip = useCallback((tripId:string,updateDto:UpdateTripDto)=>{
-        dispatch(updateTripTC({tripId,updateDto}))
-    },[])
-
-
-    const updatePassenger = useCallback((passengerId:string,updateDto:UpdatePassengerDto)=>{
-        dispatch(updatePassengerTC({passengerId,updateDto}))
-    },[dispatch] )
-
-    const removePassenger = useCallback((passengerId:string)=>{
+    //passengers actions
+    const updatePassenger = useCallback((passengerId: string, updateDto: UpdatePassengerDto) => {
+        dispatch(updatePassengerTC({passengerId, updateDto}))
+    }, [dispatch])
+    const removePassenger = useCallback((passengerId: string) => {
         dispatch(removePassengerTC(passengerId))
-    },[dispatch])
+    }, [dispatch])
 
-    useEffect(()=>{
-        dispatch(getPassengersTC({tripId:props.tripId}))
-    },[props.tripId])
+    useEffect(() => {
+        dispatch(getPassengersTC({tripId: props.tripId}))
+        dispatch(getCarsTC({userId: props.userId}))
+    }, [props.tripId])
 
     return (
         <Box sx={{width: '100%'}}>
@@ -76,6 +81,7 @@ export const AdminTripCard = (props: TripType) => {
                 <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
                     <Tab label="Основные" {...a11yProps(0)} />
                     <Tab label="Пассажиры" {...a11yProps(1)} />
+                    <Tab label="Машина" {...a11yProps(2)} />
                 </Tabs>
             </Box>
             <TabPanel value={value} index={0}>
@@ -86,9 +92,15 @@ export const AdminTripCard = (props: TripType) => {
                     updatePassenger={updatePassenger}
                     passengers={passengers}
                     trip={props}
-                    removePassenger={removePassenger} />
+                    removePassenger={removePassenger}/>
             </TabPanel>
-
+            <TabPanel value={value} index={2}>
+                <AdminTripCar
+                    updateTrip={updateTrip}
+                    tripId={props.tripId}
+                    currentCar={props.car}
+                    cars={cars}/>
+            </TabPanel>
         </Box>
     );
 };
