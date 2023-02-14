@@ -57,6 +57,7 @@ export const AdminTripCard = (props: TripType) => {
 
     const passengers = useAppSelector(selectorGetPassengersList)
     const cars = useAppSelector(selectorGetCars)
+
     //trip actions
     const updateTrip = useCallback((tripId: string, updateDto: UpdateTripDto) => {
         dispatch(updateTripTC({tripId, updateDto}))
@@ -81,11 +82,10 @@ export const AdminTripCard = (props: TripType) => {
                 <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
                     <Tab label="Основные" {...a11yProps(0)} />
                     <Tab label="Пассажиры" {...a11yProps(1)} />
-                    <Tab label="Машина" {...a11yProps(2)} />
                 </Tabs>
             </Box>
             <TabPanel value={value} index={0}>
-                <AdminTripCardForm trip={props} updateTrip={updateTrip}/>
+                <AdminTripCardForm cars={cars} trip={props} updateTrip={updateTrip}/>
             </TabPanel>
             <TabPanel value={value} index={1}>
                 <AdminPassengersList
@@ -93,13 +93,6 @@ export const AdminTripCard = (props: TripType) => {
                     passengers={passengers}
                     trip={props}
                     removePassenger={removePassenger}/>
-            </TabPanel>
-            <TabPanel value={value} index={2}>
-                <AdminTripCar
-                    updateTrip={updateTrip}
-                    tripId={props.tripId}
-                    currentCar={props.car}
-                    cars={cars}/>
             </TabPanel>
         </Box>
     );

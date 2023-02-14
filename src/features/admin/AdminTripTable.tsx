@@ -1,16 +1,14 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import {useAppSelector} from "../../common/hooks/useAppSelector";
 import {selectorGetProfileData} from "../../common/selectors/profile-selectors";
 import {useAppDispatch} from "../../common/hooks/useAppDispatch";
 import {getTripsTC} from "../trips/trip-slice";
 import {selectorGetTrips} from "../../common/selectors/trips-selectors";
-import {Box, Dialog, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow} from "@mui/material";
+import {Box, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow} from "@mui/material";
 import {TripsSearch} from "../trips/TripsSearch";
-import {TripType} from "../../common/types/trip-types";
-import {millisecondsToLocalDate} from "../../common/utils/millisecondsToLocalDate";
-import {AdminTripCard} from "./AdminTripCard";
+import {AdminTripTableRow} from "./AdminTripTableRow";
 
-export const AdminTripTable = () => {
+export const AdminTripTable = React.memo(() => {
     const profile = useAppSelector(selectorGetProfileData)
     const trips = useAppSelector(selectorGetTrips)
     const dispatch = useAppDispatch()
@@ -27,7 +25,7 @@ export const AdminTripTable = () => {
                 <Table aria-label="simple table">
 
                     <TableHead>
-                        <TableRow>
+                        <TableRow key={"trip-table-head"}>
                             <TableCell>Направление</TableCell>
                             <TableCell>Дата</TableCell>
                             <TableCell>Время</TableCell>
@@ -38,7 +36,8 @@ export const AdminTripTable = () => {
 
                     <TableBody>
                         {
-                            trips?.length ? trips.map(trip => <AdminTripTableRow key={trip.tripId} {...trip}/>) : <tr key={"none"}><td >Не найдено</td></tr>
+                            trips?.length ? trips.map(trip =>
+                                <AdminTripTableRow key={trip.tripId} {...trip}/>) : <tr key={"none"}><td >Не найдено</td></tr>
                         }
                     </TableBody>
                 </Table>
@@ -46,30 +45,5 @@ export const AdminTripTable = () => {
         </Box>
 
     );
-};
+})
 
-const AdminTripTableRow = (props: TripType) => {
-    const [open,setOpen] = useState(false)
-
-    const onOpenHandler = ()=>{
-        setOpen(true)
-    }
-    const onCloseHandler = ()=>{
-        setOpen(false)
-    }
-
-    return (
-        <>
-            <TableRow onClick={onOpenHandler} key={props.tripId}>
-                <TableCell component="th" scope="row">{props.direction}</TableCell>
-                <TableCell component="th" scope="row">{millisecondsToLocalDate(props.date)}</TableCell>
-                <TableCell component="th" scope="row">{props.startTime}</TableCell>
-                <TableCell component="th" scope="row">{props.car?.licensePlate || "Не назначено"}</TableCell>
-            </TableRow>
-            <Dialog  onClose={onCloseHandler}  open={open}>
-                    <AdminTripCard {...props}/>
-            </Dialog>
-        </>
-
-)
-}

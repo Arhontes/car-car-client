@@ -1,8 +1,7 @@
-import { configureStore } from '@reduxjs/toolkit'
+import {configureStore} from '@reduxjs/toolkit'
 import {authReducer} from "../../features/auth/auth-slice";
 import {appReducer} from "../../features/app/appSlice";
 import {profileReducer} from "../../features/profile/profile-slice";
-import {adminReducer} from "../../features/admin/admin-slice";
 import {passengersReducer} from "../../features/passengers/passengers-slice";
 import {tripsReducer} from "../../features/trips/trip-slice";
 import {carsReducer} from "../../features/cars/cars-slice";
@@ -12,7 +11,6 @@ export const store = configureStore({
         auth: authReducer,
         app:appReducer,
         profile:profileReducer,
-        admin:adminReducer,
         passengers: passengersReducer,
         trips: tripsReducer,
         cars: carsReducer,

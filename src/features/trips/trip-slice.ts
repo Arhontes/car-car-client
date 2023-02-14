@@ -5,7 +5,6 @@ import {handleServerNetworkError} from "../../common/utils/error-handle-utils";
 import {AppDispatch} from "../../common/store/store";
 import {TripsSearchEntitiesType, TripType, UpdateTripDto} from "../../common/types/trip-types";
 import {tripApi} from "./trip-api";
-import {adminActions} from "../admin/admin-slice";
 
 type TripsStateType = {
     trips: TripType[] | null,
@@ -28,7 +27,7 @@ export const tripsSlice = createSlice({
         },
         updateTrip: (state, action: PayloadAction<TripType>) => {
             const index = state.trips?.findIndex(el => el.tripId === action.payload.tripId)
-            if (index && index > -1) {
+            if (index!==undefined && index > -1) {
                 if (state.trips) {
                     state.trips[index] = action.payload
                 }
