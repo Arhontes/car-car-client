@@ -5,8 +5,8 @@ export type CreateTripDto = {
      direction: string;
      date: number;
      car: Car;
-     tripId: string;
-     managerId: string;
+     startTime:string;
+     userId: string;
 }
 export type TripDirection = "Onega-Arkhangelsk" | "Arkhangelsk-Onega"
 

@@ -1,13 +1,17 @@
 import React, {useState} from "react";
 import {TripType} from "../../common/types/trip-types";
-import {Dialog, TableCell, TableRow} from "@mui/material";
+import {Dialog, IconButton, TableCell, TableRow} from "@mui/material";
 import {millisecondsToLocalDate} from "../../common/utils/millisecondsToLocalDate";
 import {AdminTripCard} from "./AdminTripCard";
+import DeleteIcon from '@mui/icons-material/Delete';
 
-export const AdminTripTableRow = React.memo((props: TripType) => {
+type AdminTripTableRowPropsType = {
+    trip: TripType,
+    removeTrip: (tripId: string) => void
+}
+
+export const AdminTripTableRow = React.memo(({trip, removeTrip}: AdminTripTableRowPropsType) => {
     const [open, setOpen] = useState(false)
-    console.log("check props")
-    console.dir(props)
 
     const onOpenHandler = () => {
         setOpen(true)
@@ -15,18 +19,28 @@ export const AdminTripTableRow = React.memo((props: TripType) => {
     const onCloseHandler = () => {
         setOpen(false)
     }
-    console.log("check direction")
-    console.log(props.direction)
+
+    const onDeleteHandler = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+        event.stopPropagation()
+        removeTrip(trip.tripId)
+    }
     return (
         <>
-            <TableRow onClick={onOpenHandler} key={props.tripId}>
-                <TableCell component="th" scope="row">{props.direction}</TableCell>
-                <TableCell component="th" scope="row">{millisecondsToLocalDate(props.date)}</TableCell>
-                <TableCell component="th" scope="row">{props.startTime}</TableCell>
-                <TableCell component="th" scope="row">{props.car?.licensePlate || "Не назначено"}</TableCell>
+            <TableRow onClick={onOpenHandler} key={trip.tripId}>
+
+                <TableCell padding={"checkbox"}>
+                    <IconButton onClick={(event)=>onDeleteHandler(event)} aria-label="delete-trip-from-cell">
+                        <DeleteIcon/>
+                    </IconButton>
+                </TableCell>
+
+                <TableCell component="th" scope="row">{trip.direction}</TableCell>
+                <TableCell component="th" scope="row">{millisecondsToLocalDate(trip.date)}</TableCell>
+                <TableCell component="th" scope="row">{trip.startTime}</TableCell>
+                <TableCell component="th" scope="row">{trip.car?.licensePlate || "Не назначено"}</TableCell>
             </TableRow>
             <Dialog onClose={onCloseHandler} open={open}>
-                <AdminTripCard {...props}/>
+                <AdminTripCard {...trip}/>
             </Dialog>
         </>
 

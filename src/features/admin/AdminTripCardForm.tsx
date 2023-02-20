@@ -1,4 +1,4 @@
-import {TripDirection, TripType, UpdateTripDto} from "../../common/types/trip-types";
+import {CreateTripDto, TripDirection, TripType, UpdateTripDto} from "../../common/types/trip-types";
 import {Controller, SubmitHandler, useForm} from "react-hook-form";
 import {getTimeFromStringHHmm} from "../../common/utils/getTimeFromStringHHmm";
 import {millisecondsToLocalDate} from "../../common/utils/millisecondsToLocalDate";
@@ -15,10 +15,13 @@ import TextField from "@mui/material/TextField";
 import {DatePicker} from "@mui/x-date-pickers/DatePicker";
 import Button from "@mui/material/Button";
 import React from "react";
-import {Dayjs} from "dayjs";
+import dayjs, {Dayjs} from "dayjs";
 import {Car} from "../../common/types/cars-types";
+import {TripMainFields} from "./TripMainFields";
+import {useAppSelector} from "../../common/hooks/useAppSelector";
+import {selectorGetCars} from "../../common/selectors/cars-selectors";
 
-type AdminTripCardFormType = {
+export type AdminTripCardFormType = {
     direction: TripDirection
     date: Dayjs
     time: Dayjs
@@ -27,18 +30,21 @@ type AdminTripCardFormType = {
 const directions = ["Arkhangelsk-Onega", "Onega-Arkhangelsk"]
 
 type AdminTripCardFormPropsType = {
-    cars: Car[] | null,
-    trip: TripType,
-    updateTrip: (tripId: string, updateDto: UpdateTripDto) => void
+    userId:string,
+    purpose: "create"|"update"
+    trip?: TripType,
+    updateTrip?: (tripId: string, updateDto: UpdateTripDto) => void
+    createTrip?:(createTripDto:CreateTripDto)=>void
 }
 
-export const AdminTripCardForm = React.memo(({trip, cars, ...restProps}: AdminTripCardFormPropsType) => {
+export const AdminTripCardForm = React.memo(({trip, ...restProps}: AdminTripCardFormPropsType) => {
 
+    const cars = useAppSelector(selectorGetCars)
 
     const {control, handleSubmit, formState: {isValid}, getValues, setError} = useForm<AdminTripCardFormType>({
         mode: "all", defaultValues: {
-            time: getTimeFromStringHHmm(trip.startTime),
-            date: millisecondsToLocalDate(trip.date),
+            time: getTimeFromStringHHmm(trip?.startTime || "00:00"),
+            date: millisecondsToLocalDate(trip?.date || Number(getDateInMilliseconds(dayjs()))),
             car: ""
         }
     })
@@ -48,98 +54,56 @@ export const AdminTripCardForm = React.memo(({trip, cars, ...restProps}: AdminTr
         const date = getDateInMilliseconds(data.date)
         const car = cars?.find(el=>el.licensePlate===getValues("car"))
 
-        restProps.updateTrip(trip.tripId, {
+        const dto = {
             startTime,
             date: Number(date),
             direction: data.direction,
             car
-        })
+        }
+        switch (restProps.purpose){
+            case "update":
+                if (trip && trip.tripId){
+                    restProps.updateTrip!(trip.tripId, {
+                        ...dto
+                    })
+                }
+                break;
+            case "create":
+
+                // @ts-ignore
+                restProps.createTrip!({userId:restProps.userId,
+                    ...dto
+                })
+                break;
+        }
+
     };
-    const carSelectLabel =  `Машина ${trip.car?.licensePlate||"не выбрана"}`
+    const carSelectLabel =  `Машина ${trip?.car?.licensePlate||"не выбрана"}`
     return (
-        <Box component="form" onSubmit={handleSubmit(onSubmit)} sx={{mt: 3}}>
+        <Box>
+            <Box component="form" onSubmit={handleSubmit(onSubmit)} sx={{mt: 3}}>
 
-            <Grid container spacing={2}>
+                <Grid container spacing={2}>
 
-                <Grid item xs={12}>
-                    <FormSelectField
-                        label={"Направление"}
+                    <TripMainFields
+                        carSelectLabel={carSelectLabel}
                         control={control as any}
-                        name={"direction"}
-                        defaultValue={"Onega-Arkhangelsk"}
-                        children={directions.map(el => <MenuItem key={el} value={el}>{el}</MenuItem>)}
+                        cars={cars}
+
                     />
+
+                    <Button
+                        type={"submit"}
+                        fullWidth
+                        variant="contained"
+                        sx={{mt: 3, mb: 2}}
+                    >
+                        Подтвердить
+                    </Button>
+
                 </Grid>
-
-                <Grid item xs={12}>
-                    <FormSelectField
-                        label={carSelectLabel}
-                        control={control as any}
-                        name={"car"}
-                        defaultValue={cars?.[0].licensePlate||""}
-                        children={cars?.map(el => <MenuItem
-                            key={el.carId}
-                            value={el.licensePlate}>{el.licensePlate}</MenuItem>)}
-                    />
-                </Grid>
-                <Grid item xs={12}>
-                    <Controller
-                        name={"time"}
-                        control={control}
-                        render={({
-                                     field: {onChange, onBlur, value, name, ref},
-                                     fieldState: {error},
-                                 }) => (
-                            <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale={'ru'}>
-                                <Stack spacing={3}>
-                                    <TimePicker
-                                        closeOnSelect
-                                        inputFormat={"HH:mm"}
-                                        label="Время поездки"
-                                        value={value}
-                                        onChange={onChange}
-                                        renderInput={(params) => <TextField {...params} />}
-                                    />
-                                </Stack>
-                            </LocalizationProvider>
-                        )}
-                    />
-                </Grid>
-
-
-                <Grid item xs={12}>
-                    <Controller
-                        name={"date"}
-                        control={control}
-                        render={({
-                                     field: {onChange, onBlur, value, name, ref},
-                                     fieldState: {error},
-                                 }) => (
-
-                            <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale={'ru'}>
-                                <Stack spacing={3}>
-                                    <DatePicker
-                                        label="Установить дату"
-                                        value={value}
-                                        onChange={onChange}
-                                        renderInput={(params) => <TextField {...params} />}
-                                    />
-                                </Stack>
-                            </LocalizationProvider>
-                        )}
-                    />
-                </Grid>
-
-                <Button
-                    type={"submit"}
-                    fullWidth
-                    variant="contained"
-                    sx={{mt: 3, mb: 2}}
-                >
-                    Подтвердить
-                </Button>
-
-            </Grid>
+            </Box>
         </Box>
+
     )
 })

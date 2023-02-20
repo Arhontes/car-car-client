@@ -18,5 +18,8 @@ export const tripApi = {
         const result = await axiosInstance.patch<TripType>(`trip/${tripId}`, updateDto)
         return result.data
     },
-
+    async removeTrip(tripId:string) {
+        const result = await axiosInstance.delete<TripType>(`trip/${tripId}`, )
+        return result.data
+    },
 }

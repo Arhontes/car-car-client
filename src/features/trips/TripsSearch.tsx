@@ -5,7 +5,7 @@ import ChangeCircleIcon from "@mui/icons-material/ChangeCircle";
 import {CustomDatePicker} from "../../common/components/CustomDatePicker";
 import {useAppDispatch} from "../../common/hooks/useAppDispatch";
 import dayjs, {Dayjs} from "dayjs";
-import {getTripsTC} from "./trip-slice";
+import {getTripsTC, tripsActions} from "./trip-slice";
 import {getDateInMilliseconds} from "../../common/utils/getDateInMilliseconds";
 
 type TripSearchPropsType = {
@@ -28,6 +28,7 @@ export const TripsSearch = ({navigateOption}: TripSearchPropsType) => {
 
     const redirectHandler = () => {
         const dateInMillisecond = getDateInMilliseconds(datePickerValue)
+        dispatch(tripsActions.setTrips([]))
         dispatch(getTripsTC({date: dateInMillisecond, direction: direction}))
         navigateOption()
 

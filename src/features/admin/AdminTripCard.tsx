@@ -56,7 +56,6 @@ export const AdminTripCard = (props: TripType) => {
     };
 
     const passengers = useAppSelector(selectorGetPassengersList)
-    const cars = useAppSelector(selectorGetCars)
 
     //trip actions
     const updateTrip = useCallback((tripId: string, updateDto: UpdateTripDto) => {
@@ -73,7 +72,6 @@ export const AdminTripCard = (props: TripType) => {
 
     useEffect(() => {
         dispatch(getPassengersTC({tripId: props.tripId}))
-        dispatch(getCarsTC({userId: props.userId}))
     }, [props.tripId])
 
     return (
@@ -85,7 +83,7 @@ export const AdminTripCard = (props: TripType) => {
                 </Tabs>
             </Box>
             <TabPanel value={value} index={0}>
-                <AdminTripCardForm cars={cars} trip={props} updateTrip={updateTrip}/>
+                <AdminTripCardForm purpose={"update"} userId={props.userId} trip={props} updateTrip={updateTrip}/>
             </TabPanel>
             <TabPanel value={value} index={1}>
                 <AdminPassengersList
