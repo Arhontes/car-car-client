@@ -19,7 +19,7 @@ export const CustomTripCard = (props: TripType) => {
             <Paper onClick={onClickHandler} onMouseOut={() => setElevation(3)} onMouseOver={() => setElevation(10)}
                    sx={{padding: 4}}
                    elevation={elevation}>
-                <Typography variant={"body2"} sx={{textAlign: "center"}} width={"max-content"}>
+                <Typography variant={"body2"} sx={{textAlign: "center"}} >
                     Какой то хэдер с красивой картинокой и названием проекта
                 </Typography>
 

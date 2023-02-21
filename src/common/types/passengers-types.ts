@@ -1,4 +1,4 @@
-import {UserType} from "./common-types";
+import {UserType} from "./profile-types";
 
 export type PassengerType = UserType & {
     tripId: string | null

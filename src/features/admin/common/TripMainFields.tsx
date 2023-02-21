@@ -1,6 +1,6 @@
 import React from 'react';
 import Grid from "@mui/material/Grid";
-import {FormSelectField} from "../../common/components/FormSelectField";
+import {FormSelectField} from "../../../common/components/FormSelectField";
 import {MenuItem} from "@mui/material";
 import {Control, Controller} from "react-hook-form";
 import {LocalizationProvider} from "@mui/x-date-pickers/LocalizationProvider";
@@ -10,8 +10,8 @@ import {TimePicker} from "@mui/x-date-pickers";
 import TextField from "@mui/material/TextField";
 import {DatePicker} from "@mui/x-date-pickers/DatePicker";
 import {UseControllerProps} from "react-hook-form/dist/types/controller";
-import {Car} from "../../common/types/cars-types";
-import {AdminTripCardFormType} from "./AdminTripCardForm";
+import {Car} from "../../../common/types/cars-types";
+import {AdminTripCardFormType} from "../admin-trips/trip-panel/main/AdminTripMain";
 
 type TripMainFieldsPropsType = {
     cars: Car[] | null

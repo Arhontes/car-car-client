@@ -14,12 +14,12 @@ import Header from "../main/header/Header";
 import Footer from "../main/footer/Footer";
 import {initializeAppTC} from "./appSlice";
 import {VWCircular} from "../../common/components/CircularProgress";
-import {Admin} from '../admin/Admin';
 import Main from "../main/Main";
 import {TripsList} from "../trips/TripsList";
 import TripWithAddedForm from '../trips/TripWithAddedForm';
 import Book from "../passengers/Book";
-import {AdminTripTable} from "../admin/AdminTripTable";
+import {AdminTripsTable} from "../admin/admin-trips/admin-trips-table/AdminTripsTable";
+import {AdminTrips} from "../admin/admin-trips/AdminTrips";
 
 export const App = () => {
 
@@ -52,12 +52,11 @@ export const App = () => {
 
                         <Routes>
                             <Route index element={<Main/>}/>
-                            <Route path={'admin'} element={<Admin/>}/>
                             <Route path={'login'} element={<SignIn/>}/>
                             <Route path={'register'} element={<SignUp/>}/>
                             <Route path={'profile'} element={<Profile/>}/>
                             <Route path={'searchresults'} element={<TripsList/>}/>
-                            <Route path={'admin/trips'} element={<AdminTripTable/>}/>
+                            <Route path={'admin/admin-trips'} element={<AdminTrips/>}/>
                             <Route path={'trip/:tripId'} element={<TripWithAddedForm/>}/>
                             <Route path={'trip/book'} element={<Book />}/>
 

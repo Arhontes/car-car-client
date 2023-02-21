@@ -1,8 +1,8 @@
 import React, {useState} from "react";
-import {TripType} from "../../common/types/trip-types";
+import {TripType} from "../../../../common/types/trip-types";
 import {Dialog, IconButton, TableCell, TableRow} from "@mui/material";
-import {millisecondsToLocalDate} from "../../common/utils/millisecondsToLocalDate";
-import {AdminTripCard} from "./AdminTripCard";
+import {millisecondsToLocalDate} from "../../../../common/utils/millisecondsToLocalDate";
+import {AdminTripPanel} from "../trip-panel/AdminTripPanel";
 import DeleteIcon from '@mui/icons-material/Delete';
 
 type AdminTripTableRowPropsType = {
@@ -40,7 +40,7 @@ export const AdminTripTableRow = React.memo(({trip, removeTrip}: AdminTripTableR
                 <TableCell component="th" scope="row">{trip.car?.licensePlate || "Не назначено"}</TableCell>
             </TableRow>
             <Dialog onClose={onCloseHandler} open={open}>
-                <AdminTripCard {...trip}/>
+                <AdminTripPanel {...trip}/>
             </Dialog>
         </>
 

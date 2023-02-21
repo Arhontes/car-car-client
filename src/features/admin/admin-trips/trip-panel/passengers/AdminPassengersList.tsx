@@ -1,9 +1,10 @@
-import {TripType} from "../../common/types/trip-types";
-import AdminPassengerItem from "./AdminPassengerItem";
-import {PassengerType, UpdatePassengerDto} from "../../common/types/passengers-types";
+import {TripType} from "../../../../../common/types/trip-types";
+import {PassengerType, UpdatePassengerDto} from "../../../../../common/types/passengers-types";
 import {Box, Button} from "@mui/material";
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
-import {useAppDispatch} from "../../common/hooks/useAppDispatch";
+import {AdminPassengerItem} from "./AdminPassengerItem";
+import {useState} from "react";
+import AddPassengerForm from "../../../../passengers/AddPassengerForm";
 
 type AdminPassengersListPropsType = {
     trip: TripType
@@ -14,8 +15,12 @@ type AdminPassengersListPropsType = {
 
 export const AdminPassengersList = ({passengers,...restProps}: AdminPassengersListPropsType) => {
 
+    console.log("list")
+    const [open,setOpen] = useState(false)
 
-
+    const handleClose = ()=>{
+        setOpen(false)
+    }
     return (
         <Box sx={{display: "flex", flexDirection: "column", alignItems: "center"}}>
             {
@@ -31,13 +36,20 @@ export const AdminPassengersList = ({passengers,...restProps}: AdminPassengersLi
             }
 
             {
-                passengers?.length! < 7 && <Button
+                passengers?.length! < 7 && <Button onClick={()=>setOpen(!open)}
                     sx={{marginTop: 3}}
                     variant="contained"
                     endIcon={<AddCircleOutlineIcon/>}
                 >
                     Добавить
                 </Button>
+            }
+            {
+                open && <AddPassengerForm
+                    actionAfterSubmit={handleClose}
+                    adminMode={true}
+                    trip={restProps.trip}
+                    direction={restProps.trip.direction} />
             }
 
         </Box>

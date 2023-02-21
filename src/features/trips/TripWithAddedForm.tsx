@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {useParams} from "react-router-dom";
 import {useAppDispatch} from "../../common/hooks/useAppDispatch";
 import {useAppSelector} from "../../common/hooks/useAppSelector";
-import {Box, Button, Container} from "@mui/material";
+import {Box, Button, Container, Dialog} from "@mui/material";
 import {TripType} from "../../common/types/trip-types";
 import ControlPointIcon from '@mui/icons-material/ControlPoint';
 import AddPassengerForm from "../passengers/AddPassengerForm";
@@ -40,9 +40,9 @@ const TripWithAddedForm = () => {
                     Забронировать
                 </Button>
 
-                {open && <Box>
-                    <AddPassengerForm trip={trip} direction={trip.direction}/>
-                </Box>}
+                <Dialog open={open} onClose={()=>setOpen(false)}>
+                    <AddPassengerForm adminMode={false} trip={trip} direction={trip.direction}/>
+                </Dialog>
             </Container>
     );
 };

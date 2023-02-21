@@ -24,10 +24,10 @@ const AccountMenuItems = () => {
             <MenuItem onClick={()=>handleClick("profile")}>
                 <Avatar/> Профиль
             </MenuItem>
-            <MenuItem onClick={()=>handleClick("admin/trips")}>
+            <MenuItem onClick={()=>handleClick("admin/admin-trips")}>
                 <Avatar/> Поездки
             </MenuItem>
-            <MenuItem onClick={()=>handleClick("admin/cars")}>
+            <MenuItem onClick={()=>handleClick("admin/admin-cars")}>
                 <Avatar/> Машины
             </MenuItem>
             <Divider/>

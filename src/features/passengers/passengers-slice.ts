@@ -10,10 +10,10 @@ import {PassengersSearchEntities} from "../../common/selectors/passengers-select
 type PassengersStateType = {
     isAdded: null | boolean
     addedPassenger: null | PassengerType
-    passengersList: null | PassengerType[]
+    passengersList: PassengerType[]
 }
 const initialState: PassengersStateType = {
-    passengersList: null,
+    passengersList: [],
     addedPassenger: null,
     isAdded: null
 }
@@ -45,6 +45,9 @@ export const passengersSlice = createSlice({
                 }
             }
         },
+        addPassenger: (state, action: PayloadAction<PassengerType>) => {
+            state.passengersList.push(action.payload)
+        },
 
 
     },
@@ -65,7 +68,7 @@ export const addPassengerTC = createAsyncThunk('passengers/add', async (passenge
 
         dispatch(passengersActions.setIsAdded(true))
         dispatch(passengersActions.setAddedPassenger(addedPassenger))
-
+        dispatch(passengersActions.addPassenger(addedPassenger))
         dispatch(appActions.changeAppStatus("succeeded"))
 
     } catch (error) {

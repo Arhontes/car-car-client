@@ -1,12 +1,12 @@
-import {CreateTripDto, TripDirection, TripType, UpdateTripDto} from "../../common/types/trip-types";
+import {CreateTripDto, TripDirection, TripType, UpdateTripDto} from "../../../../../common/types/trip-types";
 import {Controller, SubmitHandler, useForm} from "react-hook-form";
-import {getTimeFromStringHHmm} from "../../common/utils/getTimeFromStringHHmm";
-import {millisecondsToLocalDate} from "../../common/utils/millisecondsToLocalDate";
-import {getTimeFromDayjs} from "../../common/utils/getTimeFromDayjs";
-import {getDateInMilliseconds} from "../../common/utils/getDateInMilliseconds";
+import {getTimeFromStringHHmm} from "../../../../../common/utils/getTimeFromStringHHmm";
+import {millisecondsToLocalDate} from "../../../../../common/utils/millisecondsToLocalDate";
+import {getTimeFromDayjs} from "../../../../../common/utils/getTimeFromDayjs";
+import {getDateInMilliseconds} from "../../../../../common/utils/getDateInMilliseconds";
 import {Box, MenuItem} from "@mui/material";
 import Grid from "@mui/material/Grid";
-import {FormSelectField} from "../../common/components/FormSelectField";
+import {FormSelectField} from "../../../../../common/components/FormSelectField";
 import {LocalizationProvider} from "@mui/x-date-pickers/LocalizationProvider";
 import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
 import Stack from "@mui/material/Stack";
@@ -16,10 +16,10 @@ import {DatePicker} from "@mui/x-date-pickers/DatePicker";
 import Button from "@mui/material/Button";
 import React from "react";
 import dayjs, {Dayjs} from "dayjs";
-import {Car} from "../../common/types/cars-types";
-import {TripMainFields} from "./TripMainFields";
-import {useAppSelector} from "../../common/hooks/useAppSelector";
-import {selectorGetCars} from "../../common/selectors/cars-selectors";
+import {Car} from "../../../../../common/types/cars-types";
+import {TripMainFields} from "../../../common/TripMainFields";
+import {useAppSelector} from "../../../../../common/hooks/useAppSelector";
+import {selectorGetCars} from "../../../../../common/selectors/cars-selectors";
 
 export type AdminTripCardFormType = {
     direction: TripDirection
@@ -37,7 +37,7 @@ type AdminTripCardFormPropsType = {
     createTrip?:(createTripDto:CreateTripDto)=>void
 }
 
-export const AdminTripCardForm = React.memo(({trip, ...restProps}: AdminTripCardFormPropsType) => {
+export const AdminTripMain = React.memo(({trip, ...restProps}: AdminTripCardFormPropsType) => {
 
     const cars = useAppSelector(selectorGetCars)
 

@@ -1,9 +1,9 @@
 import React from 'react';
 import {Box, Tab, Tabs} from "@mui/material";
 import Typography from "@mui/material/Typography";
-import {UserType} from "../../common/types/common-types";
 import {ProfileInfo} from "./ProfileInfo";
 import ProfileTrips from "./ProfileTrips";
+import {UserType} from "../../common/types/profile-types";
 
 interface TabPanelProps {
     children?: React.ReactNode;

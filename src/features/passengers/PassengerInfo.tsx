@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Box, IconButton, Paper} from "@mui/material";
+import {Box, Button, IconButton, Paper} from "@mui/material";
 import {PassengerType} from "../../common/types/passengers-types";
 import {millisecondsToLocalDate} from "../../common/utils/millisecondsToLocalDate";
 import {useAppSelector} from "../../common/hooks/useAppSelector";
@@ -7,11 +7,16 @@ import {selectorGetTripById} from "../../common/selectors/trips-selectors";
 import {useAppDispatch} from "../../common/hooks/useAppDispatch";
 import {getTripByIdTC} from "../trips/trip-slice";
 import ArrowDropDownCircleIcon from '@mui/icons-material/ArrowDropDownCircle';
+import {removePassengerTC} from "./passengers-slice";
 
 const PassengerInfo = (props:PassengerType) => {
     const [open,setOpen] = useState(false)
     const date = millisecondsToLocalDate(props.date!)
+    const dispatch = useAppDispatch()
 
+    const removePassengerHandler = ()=>{
+        dispatch(removePassengerTC(props.passengerId!))
+    }
     return (
         <Paper elevation={5}>
 
@@ -33,6 +38,9 @@ const PassengerInfo = (props:PassengerType) => {
                     <AdditionalPassengerInfo {...props}/>
 
                 }
+                <Button onClick={removePassengerHandler}>
+                    Отказаться от поездки
+                </Button>
             </Box>
 
         </Paper>

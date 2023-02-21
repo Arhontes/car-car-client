@@ -1,8 +1,8 @@
 import React, {useState} from 'react';
 import {IconButton, InputAdornment, TextField} from "@mui/material";
 import EditIcon from '@mui/icons-material/Edit';
-import {useAppDispatch} from "../../common/hooks/useAppDispatch";
-import {UpdatePassengerDto} from "../../common/types/passengers-types";
+import {useAppDispatch} from "../../../common/hooks/useAppDispatch";
+import {UpdatePassengerDto} from "../../../common/types/passengers-types";
 
 type AdminTextFieldPropsType = {
     value: string

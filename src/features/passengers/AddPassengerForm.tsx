@@ -6,15 +6,15 @@ import FormTextField from "../../common/components/FormTextField";
 import {validation, validationHelpers, validationMessages} from "../../common/constans/validation";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
-import {useAppDispatch} from "../../common/hooks/useAppDispatch";
 import {selectorGetAppStatus} from "../../common/selectors/app-selectors";
 import {SubmitHandler, useForm} from "react-hook-form";
 import {TripDirection, TripType} from "../../common/types/trip-types";
 import {Paper, TextField} from "@mui/material";
 import Destination from "../../common/components/Destination";
 import {CreatePassengerDto} from "../../common/types/passengers-types";
-import {selectorGetTripById} from "../../common/selectors/trips-selectors";
 import {useNavigate} from "react-router-dom";
+import {useAppDispatch} from "../../common/hooks/useAppDispatch";
+import {addPassengerTC} from "./passengers-slice";
 
 export type AddPassengerFormType = {
     email: string,
@@ -24,18 +24,20 @@ export type AddPassengerFormType = {
     from: string,
     to: string,
 }
-type AddPassengerFromPropsType = {
+type PropsType = {
+    actionAfterSubmit?: ()=>void
+    adminMode: boolean
     direction: TripDirection
     trip: TripType
 }
-const AddPassengerForm = ({trip,direction}: AddPassengerFromPropsType) => {
+const AddPassengerForm:React.FC<PropsType> = ({trip,direction,adminMode,...restProps}) => {
     const [open, setOpen] = useState(false)
-
     const [field, setField] = useState<"from" | "to">("from")
 
     const {email, firstName, lastName, phone, userId} = useAppSelector(selectorGetProfileData)
-
     const appStatus = useAppSelector(selectorGetAppStatus)
+
+    const dispatch = useAppDispatch()
 
     const navigate = useNavigate()
 
@@ -60,17 +62,25 @@ const AddPassengerForm = ({trip,direction}: AddPassengerFromPropsType) => {
 
         const passenger: CreatePassengerDto = {...data, userId: userId, tripId: trip!.tripId,date: trip.date }
 
-        navigate("/trip/book", {
-            state: {
-                passenger,
-                trip
-            }
-        })
+        if (adminMode){
+            dispatch(addPassengerTC(passenger))
+            restProps.actionAfterSubmit&&restProps.actionAfterSubmit()
+        }
+        else {
+            navigate("/trip/book", {
+                state: {
+                    passenger,
+                    trip
+                }
+            })
+        }
     };
+
     useEffect(() => {
         setValue("from", townFrom)
         setValue("to", townTo)
     }, [])
+
     return (
         <Paper>
             <Box component="form" onSubmit={handleSubmit(onSubmit)} sx={{px: 3}}>

@@ -49,7 +49,7 @@ export const tripsSlice = createSlice({
 
 export const tripsReducer = tripsSlice.reducer
 export const tripsActions = tripsSlice.actions
-export const getTripsTC = createAsyncThunk('trips/getTrips', async (params: TripsSearchEntitiesType, {dispatch}) => {
+export const getTripsTC = createAsyncThunk('admin-trips/getTrips', async (params: TripsSearchEntitiesType, {dispatch}) => {
 
     dispatch(appActions.changeAppStatus("loading"))
 
@@ -65,7 +65,7 @@ export const getTripsTC = createAsyncThunk('trips/getTrips', async (params: Trip
 
 })
 
-export const getTripByIdTC = createAsyncThunk('trips/getTripById', async (tripId:string, {dispatch}) => {
+export const getTripByIdTC = createAsyncThunk('admin-trips/getTripById', async (tripId:string, {dispatch}) => {
 
     dispatch(appActions.changeAppStatus("loading"))
 
@@ -82,7 +82,7 @@ export const getTripByIdTC = createAsyncThunk('trips/getTripById', async (tripId
 
 })
 
-export const updateTripTC = createAsyncThunk('trips/updateTrip', async (data:{tripId:string,updateDto:UpdateTripDto}, {dispatch}) => {
+export const updateTripTC = createAsyncThunk('admin-trips/updateTrip', async (data:{tripId:string,updateDto:UpdateTripDto}, {dispatch}) => {
 
     dispatch(appActions.changeAppStatus("loading"))
 
@@ -99,7 +99,7 @@ export const updateTripTC = createAsyncThunk('trips/updateTrip', async (data:{tr
 
 })
 
-export const removeTripTC = createAsyncThunk('trips/removeOne', async (tripId:string, {dispatch}) => {
+export const removeTripTC = createAsyncThunk('admin-trips/removeOne', async (tripId:string, {dispatch}) => {
 
     dispatch(appActions.changeAppStatus("loading"))
 
@@ -115,7 +115,7 @@ export const removeTripTC = createAsyncThunk('trips/removeOne', async (tripId:st
     }
 
 })
-export const createTripTC = createAsyncThunk('trips/createOne', async (createTripDto:CreateTripDto, {dispatch}) => {
+export const createTripTC = createAsyncThunk('admin-trips/createOne', async (createTripDto:CreateTripDto, {dispatch}) => {
 
     dispatch(appActions.changeAppStatus("loading"))
 

@@ -8,7 +8,7 @@ const Main = () => {
     const navigate = useNavigate()
 
     return (
-        <Box sx={{}}>
+        <Box>
             <TripsSearch navigateOption={() => navigate("searchresults")}/>
         </Box>
     );
