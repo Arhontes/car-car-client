@@ -2,7 +2,7 @@ import {authAPI} from "../../features/auth/auth-api";
 import axios from "axios";
 
 export const axiosInstance = axios.create({
-    baseURL: process.env.SERVER_URL||'http://localhost:5000/',
+    baseURL: process.env.SERVER_URL||'https://onega-trip.vercel.app/',
     withCredentials: true
 })
 axiosInstance.interceptors.request.use((config) => {
