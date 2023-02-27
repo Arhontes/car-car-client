@@ -1,9 +1,7 @@
 import axios from "axios";
 
 export const axiosInstance = axios.create({
-    baseURL: process.env.NODE_ENV === 'production'
-        ? process.env.BASE_SERVER_URL
-        : 'http://localhost:5000/',
+    baseURL: process.env.BASE_SERVER_URL || 'http://localhost:5000/',
     withCredentials: true
 })
 axiosInstance.interceptors.request.use((config) => {
