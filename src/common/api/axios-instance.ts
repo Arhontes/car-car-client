@@ -7,6 +7,17 @@ export const axiosInstance = axios.create({
 axiosInstance.interceptors.request.use((config) => {
         // @ts-ignore
         config.headers['Authorization'] = `Bearer ${localStorage.getItem('token')}`;
+        if (config.url==="auth/refresh"){
+            console.log(config.url)
+            const refresh = localStorage.getItem('refresh_token')
+            if (refresh){
+                // @ts-ignore
+                config.headers['Refresh'] = refresh;
+            }
+            else{
+                throw new Error("please log in")
+            }
+        }
         return config;
     },
     error => {

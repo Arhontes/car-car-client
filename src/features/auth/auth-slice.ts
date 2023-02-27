@@ -58,7 +58,7 @@ export const loginTC = createAsyncThunk('auth/login', async (loginDto: LoginDtoT
 
         dispatch(profileActions.setProfileData(result.user))
         localStorage.setItem('token', result.access_token)
-
+        localStorage.setItem('refresh_token', result.refresh_token)
         dispatch(authActions.setAuth(true))
         dispatch(appActions.changeAppStatus("succeeded"))
 
@@ -74,6 +74,7 @@ export const logoutTC = createAsyncThunk('auth/logout', async (_, {dispatch}) =>
     try {
         await authAPI.logout()
         localStorage.removeItem('token')
+        localStorage.removeItem('refresh_token')
 
         dispatch(profileActions.setProfileData(
             {
@@ -100,7 +101,7 @@ export const refreshTC = createAsyncThunk('auth/refresh', async (_, {dispatch}) 
 
     try {
 
-        const result = await authAPI.refresh()
+        const result = await authAPI.refresh("tempData")
 
         const {access_token,user} = result.data
 

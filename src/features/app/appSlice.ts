@@ -41,18 +41,25 @@ export const initializeAppTC = createAsyncThunk('app/initialize', async (_, {dis
 
     try {
 
-        const result = await authAPI.refresh()
+        const refreshToken = localStorage.getItem('refresh_token')
 
-        const {access_token,user} = result.data
+        if (refreshToken){
+            const result = await authAPI.refresh(refreshToken)
 
-        localStorage.setItem('token', access_token)
+            const {access_token,refresh_token,user} = result.data
 
-        dispatch(profileActions.setProfileData(user))
-        dispatch(authActions.setAuth(true))
+            localStorage.setItem('token', access_token)
+            localStorage.setItem('refresh_token', refresh_token)
+
+            dispatch(profileActions.setProfileData(user))
+            dispatch(authActions.setAuth(true))
 
 
-        dispatch(appActions.changeAppStatus("succeeded"))
-
+            dispatch(appActions.changeAppStatus("succeeded"))
+        }
+        else{
+            throw new AxiosError("please log in")
+        }
     } catch (error) {
         const err = error as AxiosError
         handleServerNetworkError(err, dispatch as AppDispatch)

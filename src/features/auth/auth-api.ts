@@ -11,10 +11,12 @@ export const authAPI = {
         const result = await axiosInstance.post<LoginResponseType>(`auth/login`, loginDTO)
         return result.data
     },
-    async refresh() {
-        return await axiosInstance.post<RefreshResponseType>(`auth/refresh`, {})
+    refresh: async function (refresh_token: string) {
+
+        return await axiosInstance.post<RefreshResponseType>(`auth/refresh`, {refresh_token})
     },
     async logout() {
         return await axiosInstance.post(`auth/logout`)
     },
 }
+
