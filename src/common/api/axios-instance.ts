@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export const axiosInstance = axios.create({
-    baseURL: process.env.BASE_SERVER_URL || 'https://car-car.vercel.app/',
+    baseURL: process.env.REACT_APP_BASE_SERVER_URL || 'https://car-car.vercel.app/',
     withCredentials: true
 })
 axiosInstance.interceptors.request.use((config) => {
