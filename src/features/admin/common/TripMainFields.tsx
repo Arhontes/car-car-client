@@ -44,7 +44,7 @@ export const TripMainFields = ({control,cars,...restProps}:TripMainFieldsPropsTy
                         defaultValue={cars?.[0].licensePlate || ""}
                         children={cars?.map(el => <MenuItem
                             key={el.carId}
-                            value={el.licensePlate}>{el.licensePlate}</MenuItem>)}
+                            value={el?.licensePlate}>{el?.licensePlate}</MenuItem>)}
                     />
                 </Grid>
                 <Grid item xs={12}>

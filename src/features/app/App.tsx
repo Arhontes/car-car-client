@@ -32,7 +32,7 @@ export const App = () => {
     return (
 
 
-        <Container fixed>
+        <Box minHeight={"100vh"}>
 
             <Box sx={{
                 margin: 0,
@@ -71,7 +71,7 @@ export const App = () => {
                 <AppErrorSnackBar/>
             </Box>
 
-        </Container>
+        </Box>
     );
 }
 
