@@ -2,6 +2,7 @@ import axios, { AxiosError } from 'axios';
 import {AppDispatch} from "../store/store";
 import {appActions} from "../../features/app/appSlice";
 
+const exceptionsList = ['first-entry']
 
 export const handleServerNetworkError = (
     e: Error | AxiosError<{ error: string }>,
@@ -13,9 +14,14 @@ export const handleServerNetworkError = (
 
     if (axios.isAxiosError(err)) {
         // @ts-ignore
-        const error = err.response?.data ? err.response.data.error : err.message;
+        const error = err.response?.data ? err.response.data?.message : err.response.data.error;
 
-        dispatch(appActions.setAppError(error));
+        const exception = checkIsException(error)
+
+        if (!exception){
+            dispatch(appActions.setAppError(error));
+        }
+
     } else {
         dispatch(appActions.setAppError(`Native error ${err.message}`));
     }
@@ -25,3 +31,8 @@ export const handleServerNetworkError = (
         dispatch(appActions.changeAppStatus("idle"))
     },3000)
 };
+
+export const checkIsException = (exception:string):boolean=>{
+    const result = exceptionsList.find(el=>el===exception)
+    return !!result
+}
