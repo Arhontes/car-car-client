@@ -9,7 +9,6 @@ import Stack from "@mui/material/Stack";
 import {TimePicker} from "@mui/x-date-pickers";
 import TextField from "@mui/material/TextField";
 import {DatePicker} from "@mui/x-date-pickers/DatePicker";
-import {UseControllerProps} from "react-hook-form/dist/types/controller";
 import {Car} from "../../../common/types/cars-types";
 import {AdminTripCardFormType} from "../admin-trips/trip-panel/main/AdminTripMain";
 
@@ -41,7 +40,7 @@ export const TripMainFields = ({control,cars,...restProps}:TripMainFieldsPropsTy
                         label={restProps.carSelectLabel||""}
                         control={control as any}
                         name={"car"}
-                        defaultValue={cars?.[0].licensePlate || ""}
+                        defaultValue={cars?.[0]?.licensePlate || ""}
                         children={cars?.map(el => <MenuItem
                             key={el.carId}
                             value={el?.licensePlate}>{el?.licensePlate}</MenuItem>)}

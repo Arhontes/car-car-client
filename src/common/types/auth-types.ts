@@ -18,12 +18,7 @@ export type LoginDtoType = {
     email:string
     password:string
 }
-export type LoginResponseType = {
-    access_token:string
-    refresh_token:string
-    user:UserType
-}
-export type RefreshResponseType = {
+export type AuthGeneratedType = {
     access_token:string
     refresh_token:string
     user:UserType

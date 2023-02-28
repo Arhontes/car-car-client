@@ -1,6 +1,5 @@
 import * as React from 'react';
 import {useEffect} from 'react';
-import {Container} from "@mui/material";
 import {Route, Routes} from "react-router-dom";
 import SignIn from "../auth/sign-in/SignIn";
 import SignUp from "../auth/sign-up/SignUp";
@@ -18,7 +17,6 @@ import Main from "../main/Main";
 import {TripsList} from "../trips/TripsList";
 import TripWithAddedForm from '../trips/TripWithAddedForm';
 import Book from "../passengers/Book";
-import {AdminTripsTable} from "../admin/admin-trips/admin-trips-table/AdminTripsTable";
 import {AdminTrips} from "../admin/admin-trips/AdminTrips";
 
 export const App = () => {

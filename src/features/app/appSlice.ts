@@ -58,7 +58,7 @@ export const initializeAppTC = createAsyncThunk('app/initialize', async (_, {dis
             dispatch(appActions.changeAppStatus("succeeded"))
         }
         else{
-            throw new AxiosError("please log in")
+            throw new AxiosError("first-entry")
         }
     } catch (error) {
         const err = error as AxiosError

@@ -1,7 +1,7 @@
 import React from 'react';
 import {Box, Stack} from "@mui/material";
 import {useAppSelector} from "../../../../common/hooks/useAppSelector";
-import {checkIsAuth} from "../../../../common/selectors/auth-selectors";
+import {selectorCheckIsAuth} from "../../../../common/selectors/auth-selectors";
 import {logoutTC} from "../../../auth/auth-slice";
 import {useAppDispatch} from "../../../../common/hooks/useAppDispatch";
 import {useNavigate} from "react-router-dom";
@@ -11,7 +11,7 @@ import LoginRoundedIcon from '@mui/icons-material/LoginRounded';
 
 const UserAuth = () => {
 
-    const isAuth = useAppSelector(checkIsAuth)
+    const isAuth = useAppSelector(selectorCheckIsAuth)
     const dispatch = useAppDispatch()
     const navigate = useNavigate()
 

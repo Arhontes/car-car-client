@@ -5,12 +5,12 @@ import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import SignInBody from "./sign-in-components/SignIn-Body";
 import {useAppSelector} from "../../../common/hooks/useAppSelector";
-import {checkIsAuth} from "../../../common/selectors/auth-selectors";
+import {selectorCheckIsAuth} from "../../../common/selectors/auth-selectors";
 import {useNavigate} from "react-router-dom";
 
 export default function SignIn() {
 
-    const isAuth = useAppSelector(checkIsAuth)
+    const isAuth = useAppSelector(selectorCheckIsAuth)
     const navigate = useNavigate()
 
     useEffect(()=>{

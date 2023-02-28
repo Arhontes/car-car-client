@@ -1,8 +1,7 @@
 import * as React from 'react';
 import CssBaseline from '@mui/material/CssBaseline';
-import Box from '@mui/material/Box';
-import Container from '@mui/material/Container';
 import SignUpBody from "./sign-up-components/SignUp-Body";
+import {Box, Container, Paper} from "@mui/material";
 
 export default function SignUp() {
 
@@ -11,19 +10,22 @@ export default function SignUp() {
 
             <Container component="main" maxWidth="xs">
 
-                <CssBaseline/>
+                <Paper sx={{paddingX:3}}>
+                    <CssBaseline/>
 
-                <Box
-                    sx={{
-                        marginTop: 8,
-                        display: 'flex',
-                        flexDirection: 'column',
-                        alignItems: 'center',
-                    }}
-                >
+                    <Box
+                        sx={{
+                            marginTop: 8,
+                            display: 'flex',
+                            flexDirection: 'column',
+                            alignItems: 'center',
+                        }}
+                    >
 
-                    <SignUpBody/>
-                </Box>
+                        <SignUpBody/>
+                    </Box>
+                </Paper>
+
             </Container>
     );
 }

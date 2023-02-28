@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import Grid from "@mui/material/Grid";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
@@ -12,6 +12,8 @@ import {selectorGetAppStatus} from "../../../../common/selectors/app-selectors";
 import IconButton from "@mui/material/IconButton";
 import {Visibility, VisibilityOff} from "@mui/icons-material";
 import SignUpBodyLinks from "./SignUp-BodyLinks";
+import {useNavigate} from "react-router-dom";
+import {selectorCheckIsAuth} from "../../../../common/selectors/auth-selectors";
 
 type SignUpFormInputs = {
     email: string,
@@ -25,7 +27,10 @@ const SignUpBody = () => {
 
     const dispatch = useAppDispatch()
 
+    const isAuth = useAppSelector(selectorCheckIsAuth)
     const appStatus = useAppSelector(selectorGetAppStatus)
+
+    const navigate = useNavigate()
 
     const [showPassword, setShowPassword] = React.useState(false);
 
@@ -40,6 +45,11 @@ const SignUpBody = () => {
         dispatch(registerTC(data))
     };
 
+    useEffect(()=>{
+        if (isAuth){
+            navigate("/")
+        }
+    },[isAuth])
     return (
         <Box component="form" onSubmit={handleSubmit(onSubmit)} sx={{mt: 3}}>
 
@@ -116,7 +126,7 @@ const SignUpBody = () => {
                             control={control as any}/>
                         <IconButton onClick={handleClickShowPassword}
                                     onMouseDown={handleMouseDownPassword}
-                                    sx={{position: "absolute", top: 20, right: 0}}>
+                                    sx={{position: "absolute", top: 24, right: 0}}>
                             {showPassword ? <VisibilityOff/> : <Visibility/>}
                         </IconButton>
                     </div>

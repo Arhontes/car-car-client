@@ -1,5 +1,5 @@
 import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit'
-import {AuthStateType, LoginDtoType, LoginResponseType, RegisterDtoType} from "../../common/types/auth-types";
+import {AuthStateType, LoginDtoType, AuthGeneratedType, RegisterDtoType} from "../../common/types/auth-types";
 import {authAPI} from "./auth-api";
 import {appActions} from "../app/appSlice";
 import {handleServerNetworkError} from "../../common/utils/error-handle-utils";
@@ -17,7 +17,7 @@ export const authSlice = createSlice({
     name: 'auth',
     initialState,
     reducers: {
-        setTokens: (state, action: PayloadAction<LoginResponseType>) => {
+        setTokens: (state, action: PayloadAction<AuthGeneratedType>) => {
             state.access_token = action.payload.access_token
         },
         setAuth: (state, action: PayloadAction<boolean>) => {
@@ -41,7 +41,13 @@ export const registerTC = createAsyncThunk('auth/register', async (registerDto: 
     dispatch(appActions.changeAppStatus("loading"))
 
     try {
-        await authAPI.register(registerDto)
+        const result = await authAPI.register(registerDto)
+
+        dispatch(profileActions.setProfileData(result.user))
+        localStorage.setItem('token', result.access_token)
+        localStorage.setItem('refresh_token', result.refresh_token)
+        dispatch(authActions.setAuth(true))
+
         dispatch(appActions.changeAppStatus("succeeded"))
     } catch (error) {
         const err = error as AxiosError

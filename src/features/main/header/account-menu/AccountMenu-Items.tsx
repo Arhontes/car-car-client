@@ -5,12 +5,12 @@ import Divider from "@mui/material/Divider";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import Settings from "@mui/icons-material/Settings";
 import {useAppSelector} from "../../../../common/hooks/useAppSelector";
-import {checkIsAuth} from "../../../../common/selectors/auth-selectors";
+import {selectorCheckIsAuth} from "../../../../common/selectors/auth-selectors";
 import {useNavigate} from "react-router-dom";
 
 const AccountMenuItems = () => {
 
-    const isAuth = useAppSelector(checkIsAuth)
+    const isAuth = useAppSelector(selectorCheckIsAuth)
 
     const navigate = useNavigate()
 

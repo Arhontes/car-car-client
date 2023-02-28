@@ -15,7 +15,7 @@ axiosInstance.interceptors.request.use((config) => {
                 config.headers['Refresh'] = refresh;
             }
             else{
-                throw new Error("please log in")
+                throw new Error("Авторизируйтесь")
             }
         }
         return config;
